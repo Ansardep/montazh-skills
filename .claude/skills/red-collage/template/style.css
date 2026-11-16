@@ -1,0 +1,130 @@
+/* «Красный коллаж» — стиль. Новые элементы добавляй в конец файла. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Playfair+Display+SC:wght@700;900&display=block&subset=cyrillic,latin');
+
+:root {
+  --cream: #ecdcc4;
+  --red: #e0262f;
+  --blood: #7a1016;
+  --ink: #120c0c;
+  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+body { font-family: var(--serif); color: var(--cream); }
+#stage { position: absolute; inset: 0; overflow: hidden; background: #000; }
+
+.scene { position: absolute; inset: 0; display: none; overflow: hidden; }
+.scene > .bg { position: absolute; inset: -60px; }
+.scene > .cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+.cam > * { position: absolute; }
+
+/* фоны */
+.bg.red   { background: radial-gradient(ellipse 75% 55% at 50% 44%, #8a141b 0%, #5a0a0f 42%, #2a0407 78%, #120102 100%); }
+.bg.deep  { background: radial-gradient(ellipse 70% 50% at 50% 46%, #5e0c11 0%, #320508 50%, #0d0102 100%); }
+.bg.black { background: radial-gradient(ellipse 70% 50% at 50% 46%, #241011 0%, #0a0404 60%, #000 100%); }
+.bg.paper { background: radial-gradient(ellipse 80% 60% at 50% 45%, #efe4d0 0%, #cdbb9c 70%, #8e7a5c 100%); }
+.bg.photo { background-size: cover; background-position: center; filter: grayscale(1) contrast(1.1) brightness(.45) blur(6px); }
+.bg.photo::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(122,16,22,.55), rgba(20,2,3,.9)); mix-blend-mode: multiply; }
+
+/* общие наложения поверх всего */
+#fx { position: absolute; inset: 0; pointer-events: none; z-index: 100000; }
+#vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 72% 58% at 50% 46%, transparent 55%, rgba(0,0,0,.72) 100%); }
+#grain { position: absolute; inset: -100px; opacity: .16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>"); }
+#dust { position: absolute; inset: 0; }
+#dust i { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px 2px rgba(255,240,220,.6); }
+#dust i.s { width: 3px; height: 14px; border-radius: 2px; }
+#scan { position: absolute; inset: 0; opacity: 0;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0 2px, transparent 2px 5px); mix-blend-mode: multiply; }
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+#tunnel { position: absolute; inset: 0; opacity: 0; }
+
+/* текст по словам */
+.cap { left: 60px; right: 60px; top: 1180px; text-align: center; font-weight: 900; text-transform: uppercase;
+  font-size: 104px; line-height: .92; letter-spacing: -.01em; color: var(--cream);
+  text-shadow: 0 0 28px rgba(255,220,190,.35), 0 6px 18px rgba(0,0,0,.7); }
+.cap .ln { display: block; }
+.cap .w { display: inline-block; white-space: pre; }
+.cap .acc { color: var(--red); text-shadow: 0 0 24px rgba(255,40,40,.35), 0 6px 18px rgba(0,0,0,.7); }
+.cap .sm { font-size: .42em; letter-spacing: .02em; vertical-align: .9em; }
+.cap.big { font-size: 190px; line-height: .86; }
+.cap.huge { font-size: 300px; line-height: .82; }
+.cap.small { font-size: 62px; }
+.cap.left { text-align: left; }
+.cap.right { text-align: right; }
+.cap.dim { color: rgba(236,220,196,.55); }
+.cap.cloud { left: 0; right: 0; top: 0; height: 100%; }
+.cap.cloud .w { position: absolute; transform-origin: 50% 50%; }
+.cap.mirror { transform: scaleY(-1); }
+
+/* вырезки */
+.cut { display: block; filter: drop-shadow(0 18px 30px rgba(0,0,0,.55)); transform-origin: 50% 50%; }
+.cut.face { width: 560px; left: 260px; top: 380px; }
+.cut.glow { filter: drop-shadow(0 0 40px rgba(255,220,190,.35)) drop-shadow(0 18px 30px rgba(0,0,0,.6)); }
+
+/* лицо пополам: <div class="split"><img A><img B></div> */
+.split { width: 600px; height: 760px; left: 240px; top: 400px; }
+.split img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.split img:nth-child(2) { clip-path: polygon(50% 0, 100% 0, 100% 100%, 47% 100%, 52% 78%, 48% 55%, 53% 33%, 49% 15%); }
+
+/* смена картинок (флеш-нарезка) */
+.flip { width: 600px; height: 720px; left: 240px; top: 380px; }
+.flip img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
+
+/* красная лента-волна */
+.ribbon { left: -40px; width: 1160px; height: 520px; top: 700px; }
+.ribbon > svg.band { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 20px 30px rgba(0,0,0,.6)); }
+.ribbon > :not(svg.band) { position: absolute; }
+
+/* рисованные линии (красный пунктир по лицу и т.п.) */
+svg.marks { left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+svg.marks > path { fill: none; stroke: var(--red); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(255,40,40,.7)); }
+svg.marks .solid { stroke-dasharray: none; }
+
+/* мел: обводка вокруг слова и стрелка */
+svg.chalk { overflow: visible; }
+svg.chalk path { fill: none; stroke: #f2ece2; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; filter: url(#chalkf); }
+svg.chalk.red path { stroke: var(--red); }
+
+/* кресты и штрихи */
+.crosses { left: 0; top: 0; width: 1080px; height: 1920px; }
+.crosses svg { position: absolute; overflow: visible; }
+.crosses path { fill: none; stroke: #e9e2d8; stroke-width: 10; stroke-linecap: round; filter: url(#chalkf); }
+.crosses.red path { stroke: var(--red); }
+
+/* счётчик */
+.count { left: 0; right: 0; top: 1420px; text-align: center; font-weight: 900; font-size: 170px; line-height: 1; color: var(--cream);
+  font-variant-numeric: lining-nums tabular-nums; text-shadow: 0 0 30px rgba(255,220,190,.3), 0 8px 20px rgba(0,0,0,.7); }
+
+/* предметы по кругу */
+.orbit { left: 540px; top: 900px; width: 0; height: 0; }
+.orbit > * { position: absolute; transform: translate(-50%, -50%); }
+
+/* буквы разлетаются */
+.scatter { left: 0; right: 0; top: 820px; text-align: center; font-weight: 900; font-size: 130px; text-transform: uppercase;
+  color: var(--cream); text-shadow: 0 0 26px rgba(255,220,190,.35), 0 6px 18px rgba(0,0,0,.7); }
+.scatter i { display: inline-block; font-style: normal; }
+
+/* луч света (микроскоп, прожектор) */
+.beam { width: 520px; height: 640px; left: 280px; top: 700px; transform-origin: 50% 0;
+  background: linear-gradient(180deg, rgba(255,200,120,.85), rgba(255,140,60,.35) 60%, rgba(255,120,40,0));
+  clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); mix-blend-mode: screen; filter: blur(3px); }
+
+/* часы-кольца */
+.clock { width: 220px; height: 220px; border-radius: 50%; border: 6px solid rgba(255,255,255,.75); box-shadow: 0 0 20px rgba(255,255,255,.25); }
+.clock::before, .clock::after { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; background: var(--red); transform-origin: 50% 100%; border-radius: 3px; }
+.clock::before { height: 38%; transform: translate(-50%, -100%) rotate(var(--h, 30deg)); }
+.clock::after  { height: 30%; transform: translate(-50%, -100%) rotate(var(--m, 220deg)); }
+
+/* маленькие подписи по углам («2026», «CREAMS») */
+.tag { font-size: 34px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: rgba(236,220,196,.85); }
+
+/* сетка-соты поверх реального фото */
+.mesh { left: 0; top: 0; width: 1080px; height: 1920px; opacity: .18; mix-blend-mode: overlay;
+  background-image: radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,0,0,.9) 60%); background-size: 14px 14px; }
+
+/* иконки файлов/логотипы в CTA */
+.badge { width: 200px; height: 230px; border-radius: 26px; background: linear-gradient(160deg, #3a3434, #151111);
+  border: 5px solid #d8d0c6; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif; font-weight: 700; color: #eee; font-size: 84px; box-shadow: 0 20px 40px rgba(0,0,0,.6); }
+.badge small { font-size: 30px; margin-top: 6px; }

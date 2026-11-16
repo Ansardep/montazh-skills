@@ -1,0 +1,9 @@
+{
+  "name": "cartoon-3d",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "puppeteer-core": "23.11.1",
+    "three": "0.160.0"
+  }
+}

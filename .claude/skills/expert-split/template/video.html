@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="utf-8"><title>Эксперт со схемой — пример</title>
+<link rel="stylesheet" href="style.css">
+</head><body class="warm expert" data-crop="60,520,960">
+
+<div class="panel" id="panel"></div>
+<div id="sub"></div>
+
+<!-- 1. «милк» деп оқысаң қате -->
+<section class="scene" data-s="0" data-e="4.07" data-bg="none" data-layout="split">
+  <div class="panel-glow"></div>
+  <div class="cap" data-w="0.05 0.3 | 0.6 0.9">Ағылшын сөздерін | қалай оқимыз?</div>
+  <div class="neon" data-in="0.74" data-pop data-sfx="pop" style="left:70px;top:440px;width:450px;text-align:center;padding:54px 30px">
+    <div class="big-word">MILK</div>
+    <div class="row bad" style="justify-content:center;margin-top:30px;font-size:56px" data-in="1.2"><span class="mark x">✕</span><s>милк</s></div>
+  </div>
+  <div class="neon" data-in="2.33" data-pop data-sfx="pop" style="left:560px;top:440px;width:450px;text-align:center;padding:54px 30px">
+    <div class="big-word">BIG</div>
+    <div class="row bad" style="justify-content:center;margin-top:30px;font-size:56px" data-in="2.8"><span class="mark x">✕</span><s>бик</s></div>
+  </div>
+  <div class="tag" data-in="3.6" data-pop data-rot="-4" style="left:380px;top:860px">екеуі де қате</div>
+</section>
+
+<!-- 2. Қара — спикер на весь экран -->
+<section class="scene" data-s="4.07" data-e="5.89" data-bg="none" data-layout="full" data-sfx="none"></section>
+
+<!-- 3. басқа әліпбиде «і» жоқ, қазақ тілінде мүмкіндік көп -->
+<section class="scene" data-s="5.89" data-e="11.25" data-bg="none" data-layout="split" data-sfx="none">
+  <div class="panel-glow"></div>
+  <div class="cap" data-w="0.05 0.3 | 0.6 0.8 1.0">Басқа әліпбиде | «і» әрпі жоқ</div>
+  <div class="neon" data-in="0.1" data-from="left" style="left:70px;right:70px;top:380px;padding:34px 40px">
+    <div style="font-size:34px;color:var(--soft);margin-bottom:18px">Басқа әліпби</div>
+    <div class="row" style="gap:16px"><span class="letter" data-in="1.7" data-pop data-sfx="pop">и</span><span class="letter" style="opacity:.35">і ?</span></div>
+  </div>
+  <div class="neon acc" data-in="2.96" data-from="right" data-sfx="whoosh" style="left:70px;right:70px;top:690px;padding:34px 40px">
+    <div style="font-size:34px;color:var(--soft);margin-bottom:18px">Қазақ әліпбиі</div>
+    <div class="row" style="gap:14px">
+      <span class="letter" data-in="3.1" data-pop>и</span>
+      <span class="letter on" data-in="3.3" data-pop data-sfx="pop">і</span>
+      <span class="letter" data-in="3.5" data-pop>ә</span>
+      <span class="letter" data-in="3.7" data-pop>ө</span>
+      <span class="letter" data-in="3.9" data-pop>ү</span>
+      <span class="letter" data-in="4.1" data-pop>ұ</span>
+    </div>
+  </div>
+  <div class="tag teal" data-in="4.36" data-pop data-rot="3" style="right:90px;top:640px">мүмкіндік көп</div>
+</section>
+
+<!-- 4. мысалдар -->
+<section class="scene" data-s="11.25" data-e="18.51" data-bg="none" data-layout="split">
+  <div class="panel-glow"></div>
+  <div class="cap" data-w="0.05 | 0.82">Мысалы | дұрыс оқу</div>
+  <div class="neon" data-in="0.82" data-from="left" data-sfx="whoosh" style="left:70px;right:70px;top:370px;padding:34px 40px">
+    <div class="row" style="justify-content:space-between"><span style="font-weight:800;font-size:66px">MILK</span>
+      <span class="row bad" style="font-size:46px"><s>милк</s></span><span class="row good" data-in="1.65" data-pop style="font-size:58px">мілк <span class="mark v">✓</span></span></div>
+  </div>
+  <div class="neon" data-in="2.98" data-from="left" data-sfx="whoosh" style="left:70px;right:70px;top:590px;padding:34px 40px">
+    <div class="row" style="justify-content:space-between"><span style="font-weight:800;font-size:66px">BIG</span>
+      <span class="row bad" style="font-size:46px"><s>бик</s></span><span class="row good" data-in="3.74" data-pop style="font-size:58px">бік <span class="mark v">✓</span></span></div>
+  </div>
+  <div class="neon" data-in="4.35" data-from="left" data-sfx="whoosh" style="left:70px;right:70px;top:810px;padding:34px 40px">
+    <div class="row" style="justify-content:space-between"><span style="font-weight:800;font-size:66px">LIMIT</span>
+      <span class="row bad" style="font-size:46px"><s>лимит</s></span><span class="row good" data-in="5.36" data-pop style="font-size:58px">лімит <span class="mark v">✓</span></span></div>
+  </div>
+</section>
+
+<!-- 5. Көрдің бе — спикер на весь экран -->
+<section class="scene" data-s="18.51" data-e="22.04" data-bg="none" data-layout="full" data-sfx="none"></section>
+
+<!-- 6. призыв -->
+<section class="scene" data-s="22.04" data-e="26.16" data-bg="none" data-layout="split" data-sfx="none">
+  <div class="panel-glow"></div>
+  <div class="cap" data-w="0.05 0.62 | 1.03 1.5">Ағылшын тілін | Just To Study</div>
+  <div class="neon acc" data-in="3.22" data-pop data-sfx="ding" style="left:220px;right:220px;top:400px;text-align:center;padding:40px">
+    <div style="font-size:38px;color:var(--soft)">Комментке жаз</div>
+    <div style="font-weight:800;font-size:260px;line-height:1;color:var(--acc)">+</div>
+  </div>
+</section>
+
+<script src="engine.js"></script>
+</body></html>

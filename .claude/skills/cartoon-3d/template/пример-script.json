@@ -1,0 +1,24 @@
+{
+  "mode": "night",
+  "heroes": [
+    {"id": "her", "type": "heroine", "name": "Я", "lightPower": 9},
+    {"id": "cl", "type": "cloudy", "name": "Клоуди", "lightPower": 5, "light": "#ffb8d8"}
+  ],
+  "lines": [
+    {"who": "her", "audio": "voices/her.mp3", "from": 0.6, "to": 5.40, "shot": "wide", "mood": "talk",
+     "subs": [[0, 2.9, "Вчера выложила в Threads наши работы по монтажу."], [2.9, 4.8, "Всем очень понравилось!"]]},
+    {"who": "cl", "audio": "voices/cl.mp3", "from": 0.0, "to": 3.63, "shot": "cl", "mood": "happy",
+     "subs": [[0, 3.63, "Ура! Я так рада за тебя. Ты молодец!"]]},
+    {"who": "her", "audio": "voices/her.mp3", "from": 6.50, "to": 10.41, "shot": "her", "mood": "shy",
+     "subs": [[0, 2.4, "Но это же твоя заслуга."], [2.7, 3.91, "Ты всё смонтировала."]]},
+    {"who": "cl", "audio": "voices/cl.mp3", "from": 4.46, "to": 12.09, "shot": "cl", "mood": "warm",
+     "subs": [[0, 1.76, "Да, монтировала я."], [2.1, 4.3, "Но стиль твой, почерк твой."], [4.66, 7.63, "Без твоего видения красивого монтажа бы не вышло."]]},
+    {"who": "her", "audio": "voices/her.mp3", "from": 11.62, "to": 14.49, "shot": "her", "mood": "smile",
+     "subs": [[0, 2.87, "Тогда следующее видео тоже делаем вместе?"]]},
+    {"who": "cl", "audio": "voices/cl.mp3", "from": 12.85, "to": 18.82, "shot": "cl", "mood": "play",
+     "subs": [[0, 3.6, "Конечно! Только в этот раз с чётким ТЗ, ладно?"], [3.6, 5.97, "А то я тысячу раз переделывала."]]},
+    {"who": "her", "audio": "voices/her.mp3", "from": 15.53, "to": 17.95, "shot": "wide", "mood": "laugh", "everyone": "laugh",
+     "subs": [[0, 1.4, "Ладно, ладно!"]]},
+    {"who": "cl", "audio": "voices/cl.mp3", "from": 19.25, "to": 20.11, "overlap": 0.9, "mood": "laugh"}
+  ]
+}

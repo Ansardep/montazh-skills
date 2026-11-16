@@ -1,0 +1,521 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;src:url(a/Inter.ttf);font-weight:100 900}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas{display:block}
+</style></head>
+<body><canvas id="cv" width="1920" height="1200"></canvas>
+<script>
+// ================== НАСТРОЙКИ ==================
+const W = 1920, H = 1200, FPS = 30;
+const A = '#ff3ea5';            // акцент (розовый неон)
+const AG = 'rgba(255,62,165,';  // для прозрачности
+const BG = '#05040a';
+window.DUR = 32;
+// текст кнопки в конце: video.html?cta=... (по умолчанию «СІЛТЕМЕНІ БАС»)
+const CTA = new URLSearchParams(location.search).get('cta') || 'СІЛТЕМЕНІ БАС';
+window.SFX = [[0, 'drone', 0.30]];
+const sfx = (t, n, v = 0.8) => window.SFX.push([+t.toFixed(3), n, v]);
+
+const cv = document.getElementById('cv'), X = cv.getContext('2d');
+const oc = document.createElement('canvas'); oc.width = W; oc.height = H; const O = oc.getContext('2d');
+
+// ================== УТИЛИТЫ ==================
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const eo = x => 1 - Math.pow(1 - cl(x), 3);
+const eio = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const lerp = (a, b, p) => a + (b - a) * p;
+const rnd = i => { const s = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
+const F = (w, s) => `${w} ${s}px Inter`;
+
+function glow(c, col, b) { c.shadowColor = col; c.shadowBlur = b; }
+function noGlow(c) { c.shadowBlur = 0; }
+
+function text(c, s, x, y, size, w = 700, col = '#fff', align = 'left', g = 0, ls = 0) {
+  c.font = F(w, size); c.textAlign = align; c.textBaseline = 'alphabetic'; c.fillStyle = col;
+  c.letterSpacing = ls + 'px';
+  if (g) glow(c, col === '#fff' ? 'rgba(255,255,255,.55)' : col, g);
+  c.fillText(s, x, y); noGlow(c); c.letterSpacing = '0px';
+}
+
+// ЖЕЛЕ: пружина с перелётом и затуханием (tau — секунды от старта)
+const jel = tau => tau <= 0 ? 0 : 1 - Math.exp(-tau * 7) * Math.cos(tau * 15);
+// сплющивание/вытягивание (объём сохраняется: шире ↔ ниже)
+const wob = tau => tau <= 0 ? 0 : Math.exp(-tau * 5.5) * Math.sin(tau * 17) * .32;
+// Рисует кусок текста как мармеладку: растёт от линии шрифта, тянется и пружинит
+function jellyPiece(c, s, cx, y, size, w, col, tau, g, rise = .35, kx = 1) {
+  const v = jel(tau), d = wob(tau);
+  c.save();
+  c.globalAlpha *= cl(tau / .09);
+  c.translate(cx, y + (1 - v) * size * rise);
+  c.rotate(d * .12 * kx);
+  c.scale(Math.max(.01, 1 + (v * (1 + d) - 1) * kx), Math.max(.01, v * (1 - d * 1.2)));
+  text(c, s, 0, 0, size, w, col, 'center', g);
+  c.restore();
+}
+
+// Удар крупным капсом: буквы вылетают по очереди, как желейные мармеладки
+function slam(c, t, t0, s, x, y, size, col = '#fff', align = 'center', ls = -6) {
+  if (t < t0) return;
+  c.font = F(900, size); c.letterSpacing = ls + 'px';
+  const total = c.measureText(s).width;
+  const x0 = align === 'center' ? x - total / 2 : align === 'right' ? x - total : x;
+  const pos = [...s].map((ch, i) => [ch, x0 + c.measureText(s.slice(0, i)).width + c.measureText(ch).width / 2]);
+  c.letterSpacing = '0px';
+  const g = col === '#fff' ? 34 : col === A ? 50 : 0;
+  pos.forEach(([ch, px], i) => {
+    const tau = t - t0 - i * .035;
+    if (tau <= 0 || ch === ' ') return;
+    jellyPiece(c, ch, px, y, size, 900, col, tau, g, .5);
+    if (g) jellyPiece(c, ch, px, y, size, 900, col, tau, 0, .5); // яркое ядро
+  });
+}
+
+// Слова по одному (заранее заданная раскладка — ничего не прыгает), каждое пружинит
+function words(c, t, list, x, y, size, w = 700, align = 'left', baseCol = '#fff') {
+  c.font = F(w, size);
+  const sp = c.measureText(' ').width;
+  const ws = list.map(o => c.measureText(o[1]).width);
+  const total = ws.reduce((a, b) => a + b, 0) + sp * (list.length - 1);
+  let cx = align === 'center' ? x - total / 2 : align === 'right' ? x - total : x;
+  list.forEach((o, i) => {
+    const tau = t - o[0];
+    if (tau > 0) jellyPiece(c, o[1], cx + ws[i] / 2, y, size, w, o[2] || baseCol, tau, o[2] ? 24 : 8, .6, .45);
+    cx += ws[i] + sp;
+  });
+  return cx;
+}
+// регистрация звуков для слов
+const regWords = (list, n = 'swish', v = .22) => list.forEach(o => sfx(o[0], n, v));
+
+// Печать по буквам: вернёт x каретки
+function typed(c, t, t0, cps, s, x, y, size, w = 300, col = '#fff') {
+  c.font = F(w, size);
+  const n = Math.floor(cl((t - t0) * cps, 0, s.length));
+  for (let i = 0; i < n; i++) {
+    const px = x + c.measureText(s.slice(0, i)).width + c.measureText(s[i]).width / 2;
+    jellyPiece(c, s[i], px, y, size, w, col, t - t0 - i / cps, 10, .5);
+    c.font = F(w, size);
+  }
+  return x + c.measureText(s.slice(0, n)).width;
+}
+const regTyped = (t0, cps, s, v = .25) => { for (let i = 0; i < s.length; i++) if (s[i] !== ' ') sfx(t0 + i / cps, 'tick', v); };
+
+// Светящийся шар
+function orb(c, x, y, r = 16, a = 1) {
+  c.save(); c.globalAlpha *= a;
+  let g = c.createRadialGradient(x, y, 0, x, y, r * 9);
+  g.addColorStop(0, AG + '.55)'); g.addColorStop(.25, AG + '.18)'); g.addColorStop(1, AG + '0)');
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r * 9, 0, 7); c.fill();
+  g = c.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, '#fff'); g.addColorStop(.5, '#ffd0ea'); g.addColorStop(1, AG + '0)');
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+  c.restore();
+}
+
+function line(c, x1, y1, x2, y2, col = 'rgba(255,255,255,.8)', w = 2, g = 0) {
+  c.strokeStyle = col; c.lineWidth = w; if (g) glow(c, col, g);
+  c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); noGlow(c);
+}
+function rr(c, x, y, w, h, r) { c.beginPath(); c.roundRect(x, y, w, h, r); }
+function brackets(c, x, y, w, h, L = 26, col = 'rgba(255,255,255,.7)', lw = 2) {
+  c.strokeStyle = col; c.lineWidth = lw; c.beginPath();
+  c.moveTo(x, y + L); c.lineTo(x, y); c.lineTo(x + L, y);
+  c.moveTo(x + w - L, y); c.lineTo(x + w, y); c.lineTo(x + w, y + L);
+  c.moveTo(x + w, y + h - L); c.lineTo(x + w, y + h); c.lineTo(x + w - L, y + h);
+  c.moveTo(x + L, y + h); c.lineTo(x, y + h); c.lineTo(x, y + h - L); c.stroke();
+}
+function mono(c, s, x, y, size = 18, col = 'rgba(255,255,255,.55)', align = 'left') {
+  c.font = `${size}px Consolas, monospace`; c.textAlign = align; c.fillStyle = col; c.fillText(s, x, y);
+}
+
+// ================== ФОН И HUD ==================
+function background(c, t) {
+  c.fillStyle = BG; c.fillRect(0, 0, W, H);
+  const off = (t * 8) % 80;
+  c.lineWidth = 1;
+  for (let x = -80 + off; x < W + 80; x += 80) line(c, x, 0, x, H, 'rgba(255,255,255,.09)', 1);
+  for (let y = -80 + off * .5; y < H + 80; y += 80) line(c, 0, y, W, y, 'rgba(255,255,255,.09)', 1);
+  const v = c.createRadialGradient(W / 2, H / 2, 300, W / 2, H / 2, 1150);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.85)');
+  c.fillStyle = v; c.fillRect(0, 0, W, H);
+}
+function hud(c, t) {
+  brackets(c, 40, 40, W - 80, H - 80, 34, 'rgba(255,255,255,.35)', 2);
+  // REC
+  if (Math.floor(t * 2) % 2 === 0) { c.fillStyle = A; glow(c, A, 12); c.beginPath(); c.arc(78, 84, 7, 0, 7); c.fill(); noGlow(c); }
+  mono(c, 'REC   NURSERIK / MOTION', 96, 90, 20, 'rgba(255,255,255,.7)');
+  mono(c, 'FR ' + String(Math.round(t * FPS)).padStart(4, '0') + ' / ' + (window.DUR * FPS), 78, H - 70, 18);
+  mono(c, 'CLAUDE → CODE → RENDER', W - 78, H - 70, 18, 'rgba(255,255,255,.45)', 'right');
+  // таймер-обещание 30 секунд
+  if (t > 3.2) {
+    const p = cl((t - 3.2) / 0.25), rem = Math.max(0, 30 - (t - 3.2) * (30 / 26.6));
+    const s = Math.floor(rem), cs = Math.floor((rem - s) * 100);
+    const str = '00:' + String(s).padStart(2, '0') + '.' + String(cs).padStart(2, '0');
+    c.save(); c.globalAlpha = p * (rem === 0 && Math.floor(t * 4) % 2 ? .25 : 1);
+    c.font = 'bold 40px Consolas, monospace'; c.textAlign = 'right';
+    c.fillStyle = rem < 5 ? A : '#fff'; glow(c, rem < 5 ? A : 'rgba(255,255,255,.6)', 16);
+    c.fillText(str, W - 78, 98); noGlow(c);
+    mono(c, 'ҚАЛДЫ', W - 78, 128, 16, 'rgba(255,255,255,.5)', 'right');
+    // полоска прогресса
+    line(c, W - 300, 142, W - 78, 142, 'rgba(255,255,255,.2)', 3);
+    line(c, W - 300, 142, W - 300 + 222 * (1 - rem / 30), 142, A, 3, 10);
+    c.restore();
+  }
+}
+
+// ================== СЦЕНЫ ==================
+const S = [];
+const scene = (a, b, f, opts = {}) => S.push({ a, b, f, ...opts });
+
+// ---- 1. Хаю хааай, с вами Нұрсерік нааа (0 – 3.0)
+const s1t = 'Хаю хааай,';
+sfx(0.12, 'pop', .6); sfx(0.3, 'draw', .35); regTyped(0.3, 13, s1t);
+const s1w = [[1.25, 'с'], [1.4, 'вами']]; regWords(s1w);
+sfx(1.7, 'hit', 1); sfx(1.72, 'whoosh', .5); sfx(2.35, 'pop', .8); sfx(2.97, 'glitch', .6);
+scene(0, 3.0, (c, t) => {
+  const cx = typed(c, t, .3, 13, s1t, 330, 420, 120, 300);
+  words(c, t, s1w, 340, 520, 46, 600, 'left', 'rgba(255,255,255,.8)');
+  slam(c, t, 1.7, 'НҰРСЕРІК', 320, 790, 250, '#fff', 'left', -8);
+  if (t > 2.35) { c.save(); c.translate(1520, 960); c.rotate(-.08); jellyPiece(c, 'нааа', 0, 0, 130, 800, A, t - 2.35, 40, .5); c.restore(); }
+  // подчёркивание под именем
+  if (t > 1.85) line(c, 330, 830, 330 + 1250 * eo((t - 1.85) / .4), 830, A, 4, 18);
+  // шар: сначала каретка, потом к имени
+  let ox = cx + 34, oy = 385;
+  if (t < .3) { ox = 330; }
+  if (t > 1.0) { const p = eio((t - 1.0) / .7); ox = lerp(cx + 34, 330 + 1250 * eo((t - 1.85) / .4), p); oy = lerp(385, 830, p); }
+  orb(c, ox, oy, 16, cl(t / .15));
+});
+
+// ---- 2. 30 секундта Claude-пен ... түбегейлі өзгертемін (3.0 – 7.8)
+const s2a = [[3.15, '30', A], [3.35, 'секундта'], [3.6, 'Claude-пен', A]];
+const s2b = [[4.6, 'монтаж'], [4.9, 'жайлы'], [5.2, 'ойыңды']];
+regWords(s2a); regWords(s2b); sfx(3.05, 'draw', .45); sfx(3.2, 'beep', .5);
+sfx(5.9, 'boom', 1); sfx(6.6, 'hit', 1); sfx(6.62, 'whoosh', .45); sfx(7.65, 'whoosh_out', .7);
+scene(3.0, 7.8, (c, t) => {
+  const u = t - 3.0, lp = eo((u - .05) / .55);
+  const dim = t > 5.8 ? lerp(1, .3, eo((t - 5.8) / .3)) : 1;
+  c.save(); c.globalAlpha *= dim;
+  line(c, 200, 470, 200 + 1520 * lp, 470, 'rgba(255,255,255,.75)', 2, 10);
+  for (let i = 0; i <= 10; i++) if (lp * 10 >= i) line(c, 200 + 152 * i, 462, 200 + 152 * i, 478, 'rgba(255,255,255,.5)', 2);
+  words(c, t, s2a, 210, 440, 72, 800);
+  words(c, t, s2b, 210, 560, 72, 300);
+  c.restore();
+  orb(c, 200 + 1520 * lp, 470, 14, t < 5.8 ? 1 : 1 - eo((t - 5.8) / .3));
+  slam(c, t, 5.9, 'ТҮБЕГЕЙЛІ', W / 2, 820, 200, '#fff');
+  slam(c, t, 6.6, 'ӨЗГЕРТЕМІН', W / 2, 1010, 200, A);
+});
+
+// ---- 3. Сен көріп тұрған моушн дизайн видеосын (7.8 – 10.3)
+const s3a = [[8.0, 'Сен'], [8.15, 'көріп'], [8.35, 'тұрған']];
+regWords(s3a); sfx(7.82, 'draw', .45); sfx(7.85, 'glitch', .4);
+sfx(8.6, 'hit', 1); sfx(9.2, 'boom', .9); sfx(9.7, 'pop', .7); sfx(10.15, 'whoosh_out', .6);
+scene(7.8, 10.3, (c, t) => {
+  const u = t - 7.8, p = eo(u / .5), dim = t > 8.6 ? .35 : 1;
+  c.save(); c.globalAlpha *= dim;
+  c.strokeStyle = 'rgba(255,255,255,.7)'; c.lineWidth = 2; glow(c, 'rgba(255,255,255,.6)', 10);
+  c.beginPath(); c.arc(960, 620, 330, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); c.stroke(); noGlow(c);
+  line(c, 960 - 520 * p, 620, 960 + 520 * p, 620, 'rgba(255,255,255,.6)', 2);
+  line(c, 960, 620 - 420 * p, 960, 620 + 420 * p, 'rgba(255,255,255,.6)', 2);
+  for (let i = -5; i <= 5; i++) line(c, 960 + i * 90, 610, 960 + i * 90, 630, 'rgba(255,255,255,' + (.5 * p) + ')', 2);
+  c.restore();
+  words(c, t, s3a, 470, 400, 48, 600);
+  // кривые вокруг
+  if (t > 8.6) {
+    const q = eo((t - 8.6) / .9);
+    c.save(); c.strokeStyle = AG + '.8)'; c.lineWidth = 3; glow(c, A, 16);
+    c.setLineDash([2000]); c.lineDashOffset = 2000 * (1 - q);
+    c.beginPath(); c.moveTo(250, 980); c.bezierCurveTo(600, 1100, 1300, 300, 1720, 380); c.stroke();
+    c.restore();
+    // шар по кривой
+    const bt = q, mt = 1 - bt;
+    const bx = mt ** 3 * 250 + 3 * mt * mt * bt * 600 + 3 * mt * bt * bt * 1300 + bt ** 3 * 1720;
+    const by = mt ** 3 * 980 + 3 * mt * mt * bt * 1100 + 3 * mt * bt * bt * 300 + bt ** 3 * 380;
+    orb(c, bx, by, 13);
+    mono(c, 'ease-out(0.22, 1, 0.36, 1)', 1720, 350, 18, AG + '.9)', 'right');
+  }
+  slam(c, t, 8.6, 'МОУШН', W / 2, 660, 270, '#fff');
+  slam(c, t, 9.2, 'ДИЗАЙН', W / 2, 900, 270, A);
+  if (t > 9.7) {
+    const q = eo((t - 9.7) / .25);
+    c.save(); c.globalAlpha = q; text(c, 'видеосын', 1480, 1010, 56, 700, '#fff', 'left', 10);
+    line(c, 1480, 1030, 1480 + 250 * q, 1030, A, 4, 14); c.restore();
+  }
+});
+
+// ---- 4. толықтай Claude өзі жасап берді десем (10.3 – 13.0)
+const s4a = [[11.0, 'өзі', A], [11.2, 'жасап'], [11.45, 'берді']];
+regWords(s4a); sfx(10.3, 'glitch', .5); sfx(10.35, 'swish', .4); sfx(10.55, 'hit', 1); sfx(10.6, 'ding', .25);
+const boxes = ['ПРОМПТ', 'CLAUDE', 'КОД', 'ВИДЕО'];
+boxes.forEach((_, i) => sfx(11.75 + i * .15, 'click', .5));
+[0, 1, 2, 3].forEach(i => sfx(12.0 + i * .28, 'pop', .45));
+sfx(12.9, 'whoosh', .6);
+scene(10.3, 13.0, (c, t) => {
+  words(c, t, [[10.35, 'толықтай']], W / 2, 320, 52, 400, 'center', 'rgba(255,255,255,.8)');
+  // звезда-искра над словом
+  if (t > 10.5) {
+    const q = eo((t - 10.5) / .3);
+    c.save(); c.translate(960, 395); c.rotate(t * 1.2); c.scale(q, q); c.strokeStyle = A; c.lineWidth = 6; glow(c, A, 20);
+    for (let i = 0; i < 8; i++) { c.rotate(Math.PI / 4); c.beginPath(); c.moveTo(0, 8); c.lineTo(0, i % 2 ? 26 : 40); c.stroke(); }
+    c.restore();
+  }
+  slam(c, t, 10.55, 'CLAUDE', W / 2, 640, 280, '#fff', 'center', -4);
+  words(c, t, s4a, W / 2, 770, 66, 800, 'center');
+  // цепочка
+  const bw = 300, bh = 104, y = 900, xs = [270, 650, 1030, 1410];
+  const travel = cl((t - 12.0) / .85) * 3;
+  xs.forEach((x, i) => {
+    const p = eo((t - (11.75 + i * .15)) / .25); if (p <= 0) return;
+    c.save(); c.globalAlpha = p; c.translate(0, (1 - p) * 30);
+    const lit = travel >= i && t > 12.0;
+    rr(c, x, y, bw, bh, 14); c.fillStyle = lit ? AG + '.22)' : 'rgba(12,10,20,.9)'; c.fill();
+    c.strokeStyle = lit ? A : 'rgba(255,255,255,.55)'; c.lineWidth = 2; if (lit) glow(c, A, 18); c.stroke(); noGlow(c);
+    text(c, boxes[i], x + bw / 2, y + 66, 38, 900, '#fff', 'center');
+    mono(c, '0' + (i + 1), x + 14, y + 24, 14);
+    if (i < 3) line(c, x + bw, y + bh / 2, x + bw + 80 * p, y + bh / 2, 'rgba(255,255,255,.5)', 2);
+    c.restore();
+  });
+  if (t > 12.0) { const k = travel; const i = Math.min(2, Math.floor(k)), f = k - i; orb(c, lerp(xs[i] + bw / 2, xs[Math.min(3, i + 1)] + bw / 2, eio(f)), y + bh + 30, 12); }
+});
+
+// ---- 5. Қалай былай? (13.0 – 14.3) — яркие вспышки
+sfx(13.0, 'flash', .9); sfx(13.0, 'boom', 1); sfx(13.6, 'hit', 1); sfx(13.6, 'flash', .5); sfx(14.25, 'glitch', .6);
+scene(13.0, 14.3, (c, t) => {
+  c.fillStyle = t < 13.6 ? A : '#ffe6f3'; c.fillRect(0, 0, W, H);
+  for (let x = 0; x < W; x += 80) line(c, x, 0, x, H, 'rgba(0,0,0,.08)', 1);
+  for (let y = 0; y < H; y += 80) line(c, 0, y, W, y, 'rgba(0,0,0,.08)', 1);
+  slam(c, t, 13.0, 'ҚАЛАЙ', W / 2, 560, 320, '#0b0710', 'center', -8);
+  slam(c, t, 13.6, 'БЫЛАЙ?', W / 2, 880, 320, A, 'center', -8);
+  mono(c, '?!', 1780, 1120, 30, 'rgba(0,0,0,.5)', 'right');
+}, { noHud: true });
+
+// ---- 6. Маған ешқандай After Effects керек емес (14.3 – 17.0)
+const s6a = [[14.4, 'Маған'], [14.65, 'ешқандай']];
+regWords(s6a); sfx(14.32, 'whoosh', .6);
+const keys = []; for (let i = 0; i < 18; i++) keys.push([14.6 + i * .04, Math.floor(rnd(i) * 6), 0.1 + rnd(i + 50) * .8]);
+keys.forEach(k => sfx(k[0], 'tick', .3));
+sfx(15.55, 'draw', .6); sfx(15.6, 'hit', .9); sfx(15.95, 'boom', 1); sfx(16.5, 'glitch', .8); sfx(16.9, 'whoosh_out', .5);
+scene(14.3, 17.0, (c, t) => {
+  words(c, t, s6a, 300, 320, 64, 800);
+  const p = eo((t - 14.3) / .35);
+  const shake = t > 15.6 && t < 15.9 ? (rnd(Math.round(t * 60)) - .5) * 24 : 0;
+  c.save(); c.globalAlpha = p * (t > 16.5 ? .45 : 1); c.translate(shake, (1 - p) * 60);
+  if (t > 16.5) c.translate((rnd(Math.round(t * 30)) - .5) * 40, 0);
+  const x = 300, y = 370, w = 1320, h = 520;
+  rr(c, x, y, w, h, 16); c.fillStyle = 'rgba(14,12,22,.95)'; c.fill(); c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 2; c.stroke();
+  line(c, x, y + 50, x + w, y + 50, 'rgba(255,255,255,.18)', 1);
+  ['#ff5f57', '#febc2e', '#28c840'].forEach((col, i) => { c.fillStyle = col; c.beginPath(); c.arc(x + 30 + i * 26, y + 25, 8, 0, 7); c.fill(); });
+  text(c, 'After Effects — Composition 1', x + w / 2, y + 33, 22, 500, 'rgba(255,255,255,.6)', 'center');
+  const names = ['Text 01', 'Shape 02', 'Null 03', 'Camera', 'Adjust', 'BG'];
+  names.forEach((n, i) => {
+    const ry = y + 80 + i * 70;
+    text(c, n, x + 30, ry + 32, 24, 500, 'rgba(255,255,255,.65)');
+    line(c, x + 220, ry + 60, x + w - 20, ry + 60, 'rgba(255,255,255,.07)', 1);
+    rr(c, x + 240 + rnd(i) * 200, ry + 12, 500 + rnd(i + 9) * 300, 32, 6); c.fillStyle = i % 2 ? 'rgba(255,255,255,.12)' : AG + '.25)'; c.fill();
+  });
+  keys.forEach(k => {
+    if (t < k[0]) return;
+    const kx = x + 260 + k[2] * 980, ky = y + 80 + k[1] * 70 + 28;
+    c.save(); c.translate(kx, ky); c.rotate(Math.PI / 4); c.fillStyle = '#fff'; c.fillRect(-7, -7, 14, 14); c.restore();
+  });
+  const ph = x + 240 + ((t - 14.3) * 300) % 1000; line(c, ph, y + 60, ph, y + h - 10, A, 2, 10);
+  // перечёркивание
+  if (t > 15.55) {
+    const q = eo((t - 15.55) / .25);
+    line(c, x - 40, y + h + 30, lerp(x - 40, x + w + 40, q), lerp(y + h + 30, y - 30, q), A, 10, 30);
+    line(c, x - 40, y - 30, lerp(x - 40, x + w + 40, cl((t - 15.7) / .25)), lerp(y - 30, y + h + 30, eo((t - 15.7) / .25)), A, 10, 30);
+  }
+  c.restore();
+  slam(c, t, 15.95, 'КЕРЕК ЕМЕС', W / 2, 1070, 170, '#fff');
+});
+
+// ---- 7. да и мен оны білмеймін де... (17.0 – 19.0) — тихая пауза
+const s7a = [[17.1, 'да'], [17.25, 'и'], [17.4, 'мен'], [17.6, 'оны'], [17.85, 'білмеймін'], [18.2, 'де']];
+regWords(s7a, 'tick', .35); sfx(18.35, 'tick', .3); sfx(18.5, 'tick', .3); sfx(18.65, 'tick', .3); sfx(18.45, 'beep', .35);
+scene(17.0, 19.0, (c, t) => {
+  const ex = words(c, t, s7a, W / 2 - 40, 570, 58, 300, 'center', 'rgba(255,255,255,.85)');
+  let d = ''; if (t > 18.35) d += '.'; if (t > 18.5) d += '.'; if (t > 18.65) d += '.';
+  text(c, d, ex - 14, 570, 58, 300, A, 'left', 20);
+  // шкала навыка
+  if (t > 18.4) {
+    const q = eo((t - 18.4) / .25); c.save(); c.globalAlpha = q;
+    mono(c, 'AFTER EFFECTS SKILL', 760, 690, 18, 'rgba(255,255,255,.55)');
+    mono(c, '0%', 1160, 690, 18, A, 'right');
+    rr(c, 760, 705, 400, 10, 5); c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.5; c.stroke();
+    c.restore();
+  }
+  orb(c, 960 + Math.sin(t * 2) * 180, 820 + Math.cos(t * 1.6) * 30, 8, .7);
+});
+
+// ---- 8. и не только моушн (19.0 – 20.5)
+const s8a = [[19.05, 'и'], [19.2, 'не'], [19.35, 'только']];
+regWords(s8a); sfx(19.0, 'glitch', .4); sfx(19.55, 'hit', .9); sfx(20.05, 'swish', .6); sfx(20.1, 'boom', .8);
+scene(19.0, 20.5, (c, t) => {
+  words(c, t, s8a, W / 2, 400, 56, 400, 'center', 'rgba(255,255,255,.8)');
+  const m = eio((t - 20.0) / .3);
+  slam(c, t, 19.55, 'МОУШН', lerp(W / 2, 760, m), 720, 260, '#fff');
+  if (t > 20.1) {
+    const q = jel(t - 20.1), d = wob(t - 20.1);
+    c.save(); c.translate(1480, 640); c.rotate((1 - q) * 1.6); c.scale(q * (1 + d), q * (1 - d));
+    c.strokeStyle = A; c.lineWidth = 34; c.lineCap = 'round'; glow(c, A, 40);
+    c.beginPath(); c.moveTo(-90, 0); c.lineTo(90, 0); c.moveTo(0, -90); c.lineTo(0, 90); c.stroke(); c.restore();
+  }
+});
+
+// ---- 9. экспертный рилс, сайт, автоворонка жасай аласыз (20.5 – 24.5)
+const cards = [
+  { t: 20.6, x: 190, label: ['ЭКСПЕРТНЫЙ', 'РИЛС'] },
+  { t: 21.45, x: 740, label: ['САЙТ'] },
+  { t: 22.25, x: 1290, label: ['АВТО-', 'ВОРОНКА'] },
+];
+cards.forEach(k => { sfx(k.t, 'whoosh', .6); sfx(k.t + .2, 'pop', .6); });
+const s9a = [[23.2, 'жасай'], [23.45, 'аласыз', A]];
+sfx(23.2, 'hit', .9); [23.5, 23.7, 23.9].forEach(x => { sfx(x, 'ding', .3); sfx(x, 'click', .4); });
+sfx(24.4, 'glitch', .6);
+scene(20.5, 24.5, (c, t) => {
+  cards.forEach((k, i) => {
+    if (t <= k.t) return;
+    const p = jel(t - k.t), cd = wob(t - k.t) * .4;
+    const x = k.x, y = 230 + (1 - p) * 160, w = 440, h = 600;
+    c.save(); c.globalAlpha = cl((t - k.t) / .15);
+    c.translate(x + w / 2, y + h); c.scale(1 + cd, 1 - cd); c.translate(-(x + w / 2), -(y + h));
+    rr(c, x, y, w, h, 24); c.fillStyle = 'rgba(16,12,26,.92)'; c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 2; c.stroke();
+    brackets(c, x - 10, y - 10, w + 20, h + 20, 22, AG + '.8)', 2);
+    mono(c, '0' + (i + 1) + ' /', x + 24, y + 38, 18, AG + '.9)');
+    const lt = t - k.t;
+    if (i === 0) { // телефон с рилсом
+      rr(c, x + 140, y + 70, 160, 290, 22); c.strokeStyle = '#fff'; c.lineWidth = 3; c.stroke();
+      c.fillStyle = A; glow(c, A, 20); c.beginPath(); c.moveTo(x + 205, y + 185); c.lineTo(x + 245, y + 215); c.lineTo(x + 205, y + 245); c.fill(); noGlow(c);
+      line(c, x + 160, y + 330, x + 280, y + 330, 'rgba(255,255,255,.3)', 4);
+      line(c, x + 160, y + 330, x + 160 + 120 * ((lt * .5) % 1), y + 330, A, 4, 8);
+      text(c, '♥ 12.4K', x + 220, y + 395, 24, 700, A, 'center');
+    } else if (i === 1) { // сайт
+      rr(c, x + 50, y + 80, 340, 260, 12); c.strokeStyle = '#fff'; c.lineWidth = 3; c.stroke();
+      line(c, x + 50, y + 115, x + 390, y + 115, 'rgba(255,255,255,.5)', 2);
+      [0, 1, 2].forEach(j => { c.fillStyle = 'rgba(255,255,255,.6)'; c.beginPath(); c.arc(x + 70 + j * 18, y + 98, 5, 0, 7); c.fill(); });
+      const q = eo(lt / .8);
+      line(c, x + 80, y + 165, x + 80 + 220 * q, y + 165, '#fff', 10);
+      line(c, x + 80, y + 200, x + 80 + 160 * q, y + 200, 'rgba(255,255,255,.4)', 6);
+      line(c, x + 80, y + 225, x + 80 + 190 * q, y + 225, 'rgba(255,255,255,.4)', 6);
+      rr(c, x + 80, y + 260, 130 * q, 46, 23); c.fillStyle = A; glow(c, A, 18); c.fill(); noGlow(c);
+    } else { // воронка
+      const lv = [[60, 320], [100, 240], [140, 160]];
+      lv.forEach((l, j) => {
+        const yy = y + 90 + j * 90;
+        c.beginPath(); c.moveTo(x + l[0], yy); c.lineTo(x + w - l[0], yy); c.lineTo(x + w - l[0] - 40, yy + 75); c.lineTo(x + l[0] + 40, yy + 75); c.closePath();
+        c.strokeStyle = j === 2 ? A : '#fff'; c.lineWidth = 3; if (j === 2) glow(c, A, 16); c.stroke(); noGlow(c);
+      });
+      for (let d = 0; d < 7; d++) {
+        const ph = ((lt * .8 + d / 7) % 1); const yy = y + 80 + ph * 300;
+        const spread = (1 - ph) * 140; const xx = x + w / 2 + (rnd(d) - .5) * spread * 2;
+        orb(c, xx, yy, 5, 1 - ph * .3);
+      }
+    }
+    k.label.forEach((s, j) => text(c, s, x + w / 2, y + 470 + j * 52, 46, 900, j === k.label.length - 1 ? '#fff' : 'rgba(255,255,255,.75)', 'center', 6, -1));
+    // галочка
+    const ct = 23.5 + i * .2;
+    if (t > ct) {
+      const q = jel(t - ct), qd = wob(t - ct); c.save(); c.translate(x + w - 10, y + 10); c.scale(q * (1 + qd), q * (1 - qd));
+      c.fillStyle = A; glow(c, A, 24); c.beginPath(); c.arc(0, 0, 34, 0, 7); c.fill(); noGlow(c);
+      c.strokeStyle = '#fff'; c.lineWidth = 7; c.lineCap = 'round'; c.beginPath(); c.moveTo(-14, 0); c.lineTo(-4, 11); c.lineTo(15, -11); c.stroke(); c.restore();
+    }
+    c.restore();
+  });
+  words(c, t, s9a, W / 2, 1010, 96, 900, 'center');
+});
+
+// ---- 10. Если Claude-пен ұялмай көрсететін, грамотный монтаж жасауды үйренгің келсе (24.5 – 29.0)
+const s10a = [[24.55, 'Если'], [24.8, 'Claude-пен', A], [25.2, 'ұялмай'], [25.6, 'көрсететін,']];
+const s10b = [[27.6, 'жасауды'], [27.9, 'үйренгің'], [28.2, 'келсе']];
+regWords(s10a); regWords(s10b); sfx(24.5, 'whoosh', .5);
+sfx(26.2, 'boom', 1); sfx(26.8, 'hit', 1); sfx(26.82, 'whoosh', .5);
+scene(24.5, 29.0, (c, t) => {
+  words(c, t, s10a, W / 2, 330, 60, 600, 'center');
+  if (t > 26.1) { const q = eo((t - 26.1) / .4); brackets(c, W / 2 - 760 * q, 440, 1520 * q, 520, 40, AG + '.85)', 3); }
+  slam(c, t, 26.2, 'ГРАМОТНЫЙ', W / 2, 650, 210, '#fff');
+  slam(c, t, 26.8, 'МОНТАЖ', W / 2, 900, 270, A);
+  words(c, t, s10b, W / 2, 1060, 56, 400, 'center', 'rgba(255,255,255,.85)');
+  // сканирующая линия
+  if (t > 26.3) { const sy = 440 + ((t - 26.3) * 400) % 520; line(c, 200, sy, 1720, sy, 'rgba(255,255,255,.12)', 2, 8); }
+}, { softOut: true });
+
+// ---- 11. Сілтемені бас (29.0 – 32.0)
+sfx(29.15, 'pop', .7); sfx(29.4, 'swish', .45); sfx(30.0, 'click', 1); sfx(30.0, 'boom', .7); sfx(30.05, 'ding', .5);
+[30.4, 30.7, 31.0].forEach(x => sfx(x, 'tick', .35)); sfx(31.5, 'whoosh_out', .6);
+scene(29.0, 32.0, (c, t) => {
+  const p = jel(t - 29.15);
+  const press = t > 30.0 ? 1 - Math.exp(-(t - 30.0) * 6) * Math.sin((t - 30.0) * 14) * .09 : 1;
+  const clicked = t > 30.0;
+  // волны после клика
+  if (clicked) for (let r = 0; r < 3; r++) {
+    const q = cl((t - 30.0 - r * .15) / .9); if (q <= 0 || q >= 1) continue;
+    c.save(); c.globalAlpha = 1 - q; rr(c, W / 2 - 460 - q * 160, 520 - q * 160, 920 + q * 320, 200 + q * 320, 100 + q * 160);
+    c.strokeStyle = A; c.lineWidth = 3; glow(c, A, 20); c.stroke(); c.restore();
+  }
+  const bw = wob(t - 29.15);
+  c.save(); c.translate(W / 2, 620); c.scale(p * press * (1 + bw), p * press * (1 - bw)); c.globalAlpha = cl((t - 29.15) / .12);
+  c.font = F(900, 96); c.letterSpacing = '-2px'; const hw = Math.max(460, c.measureText(CTA).width / 2 + 110); c.letterSpacing = '0px';
+  rr(c, -hw, -100, hw * 2, 200, 100);
+  c.fillStyle = clicked ? A : AG + '.12)'; glow(c, A, clicked ? 60 : 30); c.fill();
+  c.strokeStyle = A; c.lineWidth = 4; c.stroke(); noGlow(c);
+  text(c, CTA, 0, 34, 96, 900, '#fff', 'center', 12, -2);
+  c.restore();
+  // курсор
+  if (t > 29.4) {
+    const q = eio((t - 29.4) / .55);
+    const mx = lerp(1750, 1180, q), my = lerp(1150, 680, q);
+    c.save(); c.translate(mx, my); c.scale(1.6, 1.6);
+    c.beginPath(); c.moveTo(0, 0); c.lineTo(0, 38); c.lineTo(10, 29); c.lineTo(17, 45); c.lineTo(24, 42); c.lineTo(17, 26); c.lineTo(30, 26); c.closePath();
+    c.fillStyle = '#fff'; glow(c, 'rgba(255,255,255,.7)', 12); c.fill(); c.strokeStyle = '#000'; c.lineWidth = 2; c.stroke(); c.restore();
+  }
+  // стрелки вниз
+  if (t > 30.3) for (let i = 0; i < 3; i++) {
+    const a = cl((t - 30.3 - i * .3) / .3) * (.5 + .5 * Math.sin(t * 6 - i));
+    c.save(); c.globalAlpha = a; c.strokeStyle = i === 2 ? A : '#fff'; c.lineWidth = 8; c.lineCap = 'round';
+    const y = 820 + i * 50; c.beginPath(); c.moveTo(W / 2 - 50, y); c.lineTo(W / 2, y + 40); c.lineTo(W / 2 + 50, y); c.stroke(); c.restore();
+  }
+}, { softIn: true });
+
+// ================== КОМПОНОВКА ==================
+function render(t) {
+  background(X, t);
+  const sc = S.find(s => t >= s.a && t < s.b) || S[S.length - 1];
+  O.clearRect(0, 0, W, H); O.save(); sc.f(O, t); O.restore();
+  const u = t - sc.a, left = sc.b - t;
+  X.save();
+  // уход: размытие + лёгкий наезд
+  if (sc.softOut && left < .45) {
+    const q = 1 - left / .45; X.globalAlpha = 1 - eio(q);
+    X.translate(W / 2, H / 2); X.scale(1 + q * .03, 1 + q * .03); X.translate(-W / 2, -H / 2);
+  } else if (sc.softIn && u < .45) {
+    const q = eio(u / .45); X.globalAlpha = q;
+    X.translate(W / 2, H / 2); X.scale(.97 + q * .03, .97 + q * .03); X.translate(-W / 2, -H / 2);
+  } else if (left < .15 && sc !== S[S.length - 1]) {
+    const q = 1 - left / .15; X.globalAlpha = 1 - q * .9; X.filter = `blur(${q * 10}px)`;
+    X.translate(W / 2, H / 2); X.scale(1 + q * .06, 1 + q * .06); X.translate(-W / 2, -H / 2);
+  }
+  // приход: глитч-срезы
+  if (u < .16 && sc !== S[0] && !sc.softIn) {
+    const g = 1 - u / .16, seed = Math.round(t * FPS);
+    for (let i = 0; i < 14; i++) {
+      const y = Math.floor(rnd(seed * 7 + i) * H), h = 20 + rnd(seed + i * 3) * 90, dx = (rnd(seed * 3 + i) - .5) * 160 * g;
+      X.drawImage(oc, 0, y, W, h, dx, y, W, h);
+    }
+    X.globalAlpha = .55 * g; X.globalCompositeOperation = 'lighter'; X.drawImage(oc, 14 * g, 0); X.drawImage(oc, -14 * g, 0);
+    X.globalCompositeOperation = 'source-over'; X.globalAlpha = 1 - g * .5;
+  }
+  X.drawImage(oc, 0, 0);
+  X.restore();
+  if (!sc.noHud) hud(X, t);
+  // финальное затемнение
+  if (t > 31.6) { X.fillStyle = 'rgba(0,0,0,' + cl((t - 31.6) / .4) + ')'; X.fillRect(0, 0, W, H); }
+  // плёночное зерно
+  const seed = Math.round(t * FPS);
+  X.fillStyle = 'rgba(255,255,255,.025)';
+  for (let i = 0; i < 400; i++) X.fillRect(rnd(seed + i) * W, rnd(seed * 2 + i) * H, 2, 2);
+}
+window.render = render;
+window.READY = document.fonts.load('900 100px Inter').then(() => document.fonts.load('300 100px Inter')).then(() => { render(0); return true; });
+</script></body></html>

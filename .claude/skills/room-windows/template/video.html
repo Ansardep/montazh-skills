@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Окна в комнате — пример</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<!-- ПРИМЕР (26 с). Замени сцены своими. Все времена сцены (data-in, data-cin, data-tin) — от её начала (data-s).
+     Спикер сидит справа от центра: окна и подписи ставим в пустую левую часть комнаты (x 60…900). -->
+
+<!-- ===== ХУК: доказательства цифрами, каждая 2–3 с ===== -->
+<!-- 1. «потратил 600 тысяч» — полноэкранная вставка со счётчиком -->
+<section class="scene" data-s="0" data-e="2.4" data-kind="full" data-cut="hard" data-sfx="none">
+  <div class="big center" style="top:400px"><span data-count="600000" data-in="0" data-cdur="0.9">0</span>&thinsp;₽</div>
+  <div class="sub center" style="top:610px" data-in="0.5">потратил на нейросети за год</div>
+</section>
+
+<!-- 2. окно с терминалом в комнате + печать команды -->
+<section class="scene" data-s="2.4" data-e="6.2">
+  <div class="win" data-title="Claude Code — CLAUDE_AI" data-in="0.05" data-from="left" style="left:70px;top:150px;width:860px;height:500px">
+    <div class="term">
+      <div class="dim">~/CLAUDE_AI</div>
+      <div><span class="p">❯</span> <span data-type="смонтируй рилс из папки raw и добавь субтитры" data-tin="0.5" data-tdur="1.4"></span></div>
+      <div class="ok" data-in="2.2">✓ Нарезал 14 дублей · субтитры готовы</div>
+      <div class="cy" data-in="2.6">→ out/reel_final.mp4</div>
+    </div>
+  </div>
+  <div class="tag acc" data-in="0.3" style="left:48px;top:40px"><b>1</b>Установка</div>
+</section>
+
+<!-- 3. приближение на сильной фразе (жёсткий панч-ин, x/y — куда смотреть: 0…1) -->
+<i class="zoom" data-s="6.2" data-e="8.6" data-k="1.35" data-at="0.62,0.3"></i>
+
+<!-- 4. глава: хромовая цифра на тёмном -->
+<section class="scene" data-s="8.6" data-e="10.6" data-kind="full">
+  <div class="chrome center" data-in="0.05" data-from="spin" data-dur="0.8">2</div>
+  <div class="chrome-cap center" data-in="0.45">Железное правило</div>
+</section>
+
+<!-- 5. после главы — плашка в углу висит всю главу; окно с файлами -->
+<section class="scene" data-s="10.6" data-e="26" data-sfx="none">
+  <div class="tag" data-in="0" style="left:48px;top:40px"><b>2</b>Железное правило</div>
+</section>
+<section class="scene" data-s="10.6" data-e="14.6">
+  <div class="win" data-title="CLAUDE_AI" data-in="0.1" data-tilt="8" style="left:80px;top:170px;width:820px;height:520px">
+    <div class="files" style="--cols:4">
+      <div class="file dir" data-in="0.5" data-pop>projects</div><div class="file" data-in="0.62" data-pop>CLAUDE.md</div>
+      <div class="file" data-in="0.74" data-pop>about_me.md</div><div class="file" data-in="0.86" data-pop>style.md</div>
+      <div class="file" data-in="0.98" data-pop>clients.md</div><div class="file" data-in="1.1" data-pop>prices.md</div>
+      <div class="file dir" data-in="1.22" data-pop>reels</div><div class="file dir" data-in="1.34" data-pop>backup</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. подписи на предметах комнаты (ступени): цифра + слово -->
+<section class="scene" data-s="14.6" data-e="18.4">
+  <div class="label" data-in="0.1" data-from="bottom" data-dist="40" style="left:560px;top:520px"><b>1</b>первый день</div>
+  <div class="label" data-in="0.7" data-from="bottom" data-dist="40" style="left:440px;top:380px"><b>2</b>средний уровень</div>
+  <div class="label" data-in="1.3" data-from="bottom" data-dist="40" style="left:320px;top:240px"><b>3</b>продвинутый</div>
+</section>
+
+<!-- 7. уведомления стопкой -->
+<section class="scene" data-s="18.4" data-e="22">
+  <div class="note" data-in="0.1" data-from="left" style="left:80px;top:250px"><img src="a/icons/chart_increasing.png"><div><b>+70 000 подписчиков</b>за 4 месяца</div></div>
+  <div class="note" data-in="0.55" data-from="left" style="left:80px;top:370px"><img src="a/icons/clapper_board.png"><div><b>2 800 рилсов</b>смонтировано агентом</div></div>
+  <div class="note" data-in="1.0" data-from="left" style="left:80px;top:490px"><img src="a/icons/money_bag.png"><div><b>Продано на 2,9 млн ₽</b>объявления пишет ИИ</div></div>
+</section>
+
+<!-- 8. CTA: телефон + кнопка на тёмном (вместо картинки — свой скрин приложения: <img src="media/app.png">) -->
+<section class="scene" data-s="22" data-e="26" data-kind="full" data-bg="warm">
+  <div class="phone" data-in="0.05" data-from="bottom" data-dist="300" style="left:380px;top:70px;width:440px">
+    <div class="screen"><div class="rows" style="padding-top:90px">
+      <div class="rowi">Уроки по ИИ <span class="toggle on"></span></div>
+      <div class="rowi">Проекты файлами <span class="toggle on"></span></div>
+      <div class="rowi">Эфиры 4K <span class="toggle on"></span></div>
+    </div></div>
+  </div>
+  <div class="big s" data-in="0.4" style="left:930px;top:330px">Клуб</div>
+  <div class="sub" data-in="0.6" style="left:934px;top:440px;text-align:left">уроки · проекты · разборы</div>
+  <div class="btn" data-in="1.0" data-pop data-sfx="ding" style="left:930px;top:520px">Вступить за 2 990 ₽</div>
+</section>
+
+<script src="engine.js"></script>
+</body></html>

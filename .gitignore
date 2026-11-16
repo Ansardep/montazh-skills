@@ -1,0 +1,8 @@
+node_modules/
+.venv/
+__pycache__/
+.env
+/input/
+/work/
+.DS_Store
+Thumbs.db
