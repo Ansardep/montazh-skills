@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Аңсар Кенжебекұлы</title>
+<meta name="description" content="Аңсар Кенжебекұлы — Creative Producer, контент-мейкер. Жеке бренд контенті, мобилография, видеография, ӘРЕКЕТ мобилография курсы және консультациялар.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<meta property="og:title" content="Аңсар Кенжебекұлы — Creative Producer">
+<meta property="og:description" content="Жеке бренд контенті, мобилография, видеография, сайт жасау, ӘРЕКЕТ курсы және консультациялар.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0B0C'/%3E%3Ctext x='15' y='45' font-family='Arial' font-weight='800' font-size='36' fill='%23F5F5F3'%3EA%3C/text%3E%3Ccircle cx='48' cy='42' r='4' fill='%234C7DFF'/%3E%3C/svg%3E">
+<style>body{margin:0}</style>
+</head>
+<body>
+<style>
+/* Layout: one long page, six numbered chapters on deep black. Big type does the work; white for content, one cool blue used sparingly. 1280px cap, 12-col grid. */
+:root{
+  --bg:#0B0B0C;
+  --panel:#161618;
+  --panel-2:#1F1F22;
+  --fg:#F5F5F3;
+  --dim:#9A9A9F;
+  --accent:#4C7DFF;
+  --line:rgba(245,245,243,.1);
+  --display:"Inter Tight","Inter",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gl:max(clamp(20px,4.5vw,64px),env(safe-area-inset-left,0px));
+  --gr:max(clamp(20px,4.5vw,64px),env(safe-area-inset-right,0px));
+  --ease:cubic-bezier(.22,.8,.2,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;letter-spacing:-.04em;line-height:.95;text-wrap:balance}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+ul,ol{margin:0;padding:0;list-style:none}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+.sec{padding-block:clamp(88px,12vw,168px)}
+.chap{display:flex;align-items:baseline;gap:14px;font-size:14px;font-weight:500;color:var(--dim);margin-bottom:clamp(28px,4vw,48px)}
+.chap b{font-family:var(--display);font-weight:600;color:var(--accent);font-size:14px}
+.h2{font-size:clamp(40px,6.4vw,92px)}
+.dim{color:var(--dim)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border-radius:999px;font-weight:600;font-size:15.5px;transition:background .3s var(--ease),color .3s var(--ease),border-color .3s}
+.btn-w{background:var(--fg);color:var(--bg)}
+.btn-w:hover{background:var(--accent);color:#fff}
+.btn-o{border:1px solid rgba(245,245,243,.28)}
+.btn-o:hover{border-color:var(--fg);background:var(--fg);color:var(--bg)}
+.btn .ar{transition:transform .35s var(--ease)}
+.btn:hover .ar{transform:translateX(4px)}
+
+/* nav */
+.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(11,11,12,.9);backdrop-filter:saturate(1.2) blur(12px);-webkit-backdrop-filter:saturate(1.2) blur(12px);border-color:var(--line)}
+.nav-in{max-width:1280px;margin:0 auto;padding:18px var(--gr) 18px var(--gl);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.03em}
+.logo span{color:var(--accent)}
+.links{display:flex;gap:30px;font-size:15px;color:var(--dim)}
+.links a{transition:color .25s}
+.links a:hover{color:var(--fg)}
+.nav .btn{min-height:44px;padding:0 20px;font-size:14px}
+.burger{display:none;width:46px;height:46px;border-radius:50%;background:var(--panel-2);place-items:center}
+.burger i{display:block;width:18px;height:2px;background:var(--fg);border-radius:2px;box-shadow:0 -6px 0 var(--fg),0 6px 0 var(--fg)}
+.menu{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 18px) var(--gr) calc(env(safe-area-inset-bottom,0px) + 28px) var(--gl);overflow-y:auto}
+.menu-top{display:flex;justify-content:space-between;align-items:center}
+.menu nav{display:flex;flex-direction:column;margin-top:48px}
+.menu nav a{font-family:var(--display);font-weight:700;font-size:clamp(36px,11vw,56px);letter-spacing:-.045em;line-height:1.2;display:flex;align-items:baseline;gap:14px}
+.menu nav a small{font-size:14px;color:var(--accent);font-weight:600;letter-spacing:0}
+.menu-foot{margin-top:auto;display:grid;gap:10px;padding-top:40px}
+@media (max-width:980px){.links,.nav .btn{display:none}.burger{display:grid}}
+
+.nav-r{display:flex;align-items:center;gap:10px}
+.lang{display:flex;background:var(--panel-2);border-radius:999px;padding:4px}
+.lang button{min-width:44px;min-height:36px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--dim);transition:background .25s,color .25s}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.lang button:not([aria-pressed="true"]):hover{color:var(--fg)}
+
+/* 01 hero */
+.hero{padding-top:calc(clamp(110px,12vw,150px));padding-bottom:clamp(64px,8vw,110px)}
+.hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:40px;align-items:end}
+.hero-txt{grid-column:1/8;display:flex;flex-direction:column;gap:32px}
+.role{font-size:15px;font-weight:500;color:var(--dim);display:flex;align-items:center;gap:12px}
+.role i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.hero h1{font-size:clamp(48px,6.6vw,100px);font-weight:800;letter-spacing:-.055em;line-height:.88}
+.hero h1 span{display:block}
+.intro{font-size:clamp(17px,1.5vw,20px);line-height:1.55;max-width:34ch;color:#D6D6D8}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.photo{grid-column:8/13;position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:var(--panel);max-width:100%}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+.photo .empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--dim);font-size:14px}
+.hero .ld{animation:ld 1s var(--ease) both}
+.hero .ld:nth-child(2){animation-delay:.06s}.hero .ld:nth-child(3){animation-delay:.12s}.hero .ld:nth-child(4){animation-delay:.18s}
+.photo{animation:ph 1.2s var(--ease) both}
+@media (max-width:900px){
+  .hero{padding-top:92px}
+  .hero-txt,.photo{grid-column:1/-1}
+  .photo{order:-1;aspect-ratio:4/5}
+}
+
+/* 02 about */
+.about-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:56px}
+.about-grid h2{grid-column:1/10}
+.about-grid h2 em{font-style:normal;color:var(--dim)}
+.about-txt{grid-column:6/12;display:flex;flex-direction:column;gap:20px;font-size:clamp(16px,1.3vw,18px);color:#D6D6D8;max-width:58ch}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.stat{background:var(--panel);border-radius:24px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:48px;min-height:clamp(200px,20vw,280px);min-width:0}
+.stat b{font-family:var(--display);font-weight:800;font-size:clamp(56px,7vw,104px);letter-spacing:-.06em;line-height:.85}
+.stat b em{font-style:normal;color:var(--accent)}
+.stat p{font-size:16px;color:var(--dim);max-width:24ch}
+.stat.txt b{font-size:clamp(28px,2.8vw,40px);letter-spacing:-.04em;line-height:1.05}
+.clients{grid-column:1/-1;display:flex;flex-direction:column;gap:22px}
+.clients p{font-size:15px;color:var(--dim)}
+.names{font-family:var(--display);font-weight:600;font-size:clamp(22px,2.6vw,38px);letter-spacing:-.035em;line-height:1.35;color:#D6D6D8}
+.names span{white-space:nowrap}
+.names span::after{content:" / ";color:#45454a;font-weight:500}
+.names span:last-child::after{content:""}
+.result{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:20px;align-items:end;padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line)}
+.result b{grid-column:1/7;font-family:var(--display);font-weight:800;font-size:clamp(64px,10vw,150px);letter-spacing:-.065em;line-height:.8;white-space:nowrap}
+.result div{grid-column:8/-1;display:flex;flex-direction:column;gap:10px}
+.result h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.03em;line-height:1.1}
+.result p{color:var(--dim);font-size:16px}
+@media (max-width:900px){
+  .about-grid h2,.about-txt{grid-column:1/-1}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat.txt{grid-column:1/-1;min-height:0}
+  .result b,.result div{grid-column:1/-1}
+}
+@media (max-width:520px){.stats{grid-template-columns:1fr}.stat{min-height:0;gap:28px}}
+
+/* 03 services */
+.svc-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,64px)}
+.svc-top p{max-width:34ch;font-size:17px}
+.svcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.svc{background:var(--panel);border-radius:24px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:20px;min-width:0;transition:background .4s var(--ease)}
+.svc:hover{background:var(--panel-2)}
+.svc.main{grid-column:1/-1;background:var(--fg);color:var(--bg)}
+.svc.main:hover{background:#fff}
+.svc-h{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.svc-n{font-family:var(--display);font-weight:600;font-size:15px;color:var(--dim)}
+.svc.main .svc-n{color:var(--accent)}
+.svc h3{font-size:clamp(26px,2.6vw,38px);letter-spacing:-.04em;line-height:1.02}
+.svc.main h3{font-size:clamp(32px,4.2vw,60px);max-width:18ch}
+.svc > p{color:var(--dim);font-size:16px;max-width:52ch}
+.svc.main > p{color:#3d3d42;font-size:clamp(16px,1.4vw,19px)}
+.svc-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:8px}
+.svc .btn{min-height:48px;padding:0 18px;font-size:14.5px;white-space:nowrap}
+.svc.main .btn-w{background:var(--bg);color:var(--fg)}
+.svc.main .btn-w:hover{background:var(--accent);color:#fff}
+.svc.main .btn-o{border-color:rgba(11,11,12,.25)}
+.svc.main .btn-o:hover{background:var(--bg);color:var(--fg)}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.more > div{overflow:hidden}
+.svc.open .more{grid-template-rows:1fr}
+.more-in{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-top:4px}
+.more h4{margin:0 0 10px;font-family:var(--display);font-size:15px;font-weight:600}
+.more p,.more li{font-size:15px;color:var(--dim);line-height:1.5}
+.svc.main .more p,.svc.main .more li{color:#3d3d42}
+.more ol{counter-reset:k;display:grid;gap:6px}
+.more li{counter-increment:k;display:grid;grid-template-columns:26px 1fr}
+.more li::before{content:counter(k);font-weight:600;color:var(--accent)}
+.price-note{grid-column:1/-1;font-size:15px}
+@media (max-width:820px){.svcs{grid-template-columns:1fr}.more-in{grid-template-columns:1fr}}
+
+/* 03+ website development (new service) */
+.web{margin-top:clamp(12px,1.6vw,20px);background:var(--panel);border-radius:clamp(24px,3vw,36px);padding:clamp(26px,4.6vw,68px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:clamp(36px,4.4vw,64px);scroll-margin-top:90px}
+.web-top{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.web-tag{font-size:13px;font-weight:600;padding:9px 15px;border-radius:999px;background:var(--accent);color:#fff}
+.web-n{font-family:var(--display);font-weight:600;font-size:15px;color:var(--dim)}
+.web-head{grid-column:1/8;display:flex;flex-direction:column;gap:18px;min-width:0}
+.web-head h3{font-size:clamp(46px,7.2vw,112px);font-weight:800;letter-spacing:-.06em;line-height:.86}
+.web-head h3 span{display:block;color:var(--dim)}
+.web-sub{font-family:var(--display);font-weight:600;font-size:clamp(20px,2vw,28px);letter-spacing:-.03em}
+.web-txt{grid-column:1/7;display:flex;flex-direction:column;gap:18px;max-width:52ch}
+.web-txt p:first-child{font-size:clamp(18px,1.6vw,22px);line-height:1.45;font-weight:500;letter-spacing:-.01em}
+.web-txt p+p{color:var(--dim);font-size:16.5px}
+.web-frame{grid-column:8/-1;grid-row:2/4;align-self:center;background:var(--bg);border:1px solid var(--line);border-radius:20px;overflow:hidden;max-width:100%}
+.wf-bar{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.wf-bar i{width:9px;height:9px;border-radius:50%;background:#2c2c30}
+.wf-bar span{margin-left:10px;flex:1;height:20px;border-radius:999px;background:var(--panel-2);max-width:60%}
+.wf-body{padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:clamp(16px,2vw,24px)}
+.wf-nav{display:flex;align-items:center;gap:10px}
+.wf-nav b{width:44px;height:10px;border-radius:4px;background:var(--fg)}
+.wf-nav span{width:30px;height:6px;border-radius:3px;background:#2c2c30}
+.wf-nav span:first-of-type{margin-left:auto}
+.wf-hero{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(12px,1.6vw,20px);align-items:end}
+.wf-lines{display:flex;flex-direction:column;gap:9px}
+.wf-lines b{height:clamp(12px,1.2vw,18px);border-radius:5px;background:var(--fg)}
+.wf-lines em{height:6px;border-radius:3px;background:#2c2c30;margin-top:4px}
+.wf-lines u{width:46%;height:22px;border-radius:999px;background:var(--accent);margin-top:8px}
+.wf-img{aspect-ratio:4/5;border-radius:12px;background:var(--panel-2)}
+.wf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.wf-cards i{aspect-ratio:4/3;border-radius:10px;background:var(--panel-2)}
+.web-list{grid-column:1/-1}
+.web-list h4{margin:0 0 6px;font-family:var(--display);font-size:15px;font-weight:600;color:var(--dim)}
+.web-list ol{counter-reset:w;display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(16px,2vw,28px)}
+.web-list li{counter-increment:w;display:grid;grid-template-columns:48px 1fr;align-items:baseline;padding:clamp(16px,1.8vw,22px) 0;border-top:1px solid var(--line);font-family:var(--display);font-weight:600;font-size:clamp(20px,2.1vw,30px);letter-spacing:-.035em;line-height:1.15;transition:color .3s var(--ease)}
+.web-list li::before{content:counter(w,decimal-leading-zero);font-size:14px;letter-spacing:0;color:var(--accent)}
+.web-list li:hover{color:#fff}
+.web-list li:last-child{grid-column:1/-1}
+.web-foot{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;padding-top:clamp(28px,3vw,40px);border-top:1px solid var(--line)}
+.web-price{display:flex;flex-direction:column;gap:10px}
+.web-price span{font-size:15px;color:var(--dim)}
+.web-price b{font-family:var(--display);font-weight:800;font-size:clamp(60px,8vw,120px);letter-spacing:-.065em;line-height:.82;white-space:nowrap}
+.web-cta{display:flex;flex-direction:column;align-items:flex-end;gap:14px;max-width:34ch}
+.web-cta p{font-size:14.5px;color:var(--dim);text-align:right}
+@media (max-width:900px){
+  .web-head,.web-txt,.web-frame{grid-column:1/-1}
+  .web-frame{grid-row:auto}
+  .web-list ol{grid-template-columns:1fr}
+  .web-cta{align-items:flex-start}.web-cta p{text-align:left}
+}
+@media (max-width:520px){.web-cta,.web-cta .btn{width:100%}}
+
+/* 04 course */
+.course{background:var(--fg);color:var(--bg);border-radius:clamp(24px,3vw,40px);margin-inline:clamp(8px,1.2vw,16px)}
+.course .chap{color:#6b6b70}
+.areket{font-family:var(--display);font-weight:800;font-size:clamp(84px,19vw,270px);letter-spacing:-.075em;line-height:.8;margin-left:-.04em;white-space:nowrap}
+.areket span{color:var(--accent)}
+.course-lead{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:20px;margin-top:clamp(28px,4vw,48px)}
+.course-lead p{grid-column:1/7;font-size:clamp(19px,1.9vw,26px);line-height:1.35;font-weight:500;letter-spacing:-.01em}
+.badge{grid-column:9/-1;justify-self:end;align-self:start;font-size:14px;font-weight:600;padding:10px 16px;border-radius:999px;background:var(--bg);color:var(--fg)}
+.c-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:48px;margin-top:clamp(56px,7vw,96px)}
+.c-col h3{font-size:clamp(22px,2vw,28px);letter-spacing:-.03em;margin-bottom:22px}
+.c-for{grid-column:1/5}
+.c-learn{grid-column:6/-1}
+.c-for ul{display:grid;gap:14px}
+.c-for li{font-size:17px;line-height:1.45}
+.c-learn ol{counter-reset:l;display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
+.c-learn li{counter-increment:l;display:grid;grid-template-columns:36px 1fr;padding:13px 0;border-top:1px solid rgba(11,11,12,.12);font-size:16px;line-height:1.4}
+.c-learn li::before{content:counter(l,decimal-leading-zero);font-family:var(--display);font-weight:600;color:var(--accent);font-size:14px;padding-top:2px}
+.perks{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.perk{background:#E9E9E6;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.perk b{font-family:var(--display);font-size:18px;letter-spacing:-.02em}
+.perk span{font-size:14.5px;color:#55555a;line-height:1.45}
+.buy{grid-column:1/-1;background:var(--bg);color:var(--fg);border-radius:28px;padding:clamp(26px,4vw,56px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:32px;scroll-margin-top:90px}
+.buy-l{grid-column:1/6;display:flex;flex-direction:column;gap:16px}
+.now{font-family:var(--display);font-weight:800;font-size:clamp(64px,8vw,116px);letter-spacing:-.06em;line-height:.85;white-space:nowrap}
+.was{font-size:16px;color:var(--dim)}
+.was s{color:var(--fg);white-space:nowrap}
+.save{align-self:flex-start;font-size:14px;font-weight:600;padding:9px 15px;border-radius:999px;background:var(--accent);color:#fff}
+.buy-r{grid-column:7/-1;display:flex;flex-direction:column;gap:20px;min-width:0}
+.buy-r ol{counter-reset:p;display:grid;gap:12px}
+.buy-r li{counter-increment:p;display:grid;grid-template-columns:36px 1fr;font-size:16px;align-items:start}
+.buy-r li::before{content:counter(p);width:26px;height:26px;border-radius:50%;background:var(--panel-2);display:grid;place-items:center;font-size:13px;font-weight:600}
+.kaspi{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--panel);border-radius:18px;padding:16px 16px 16px 22px}
+.kaspi b{display:block;font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.02em;user-select:all}
+.kaspi small{font-size:14px;color:var(--dim)}
+.kaspi .btn{min-height:46px;padding:0 20px;font-size:14px}
+.buy-btns{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:900px){
+  .course-lead p,.c-for,.c-learn,.buy-l,.buy-r{grid-column:1/-1}
+  .badge{grid-column:1/-1;justify-self:start}
+  .perks{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){.c-learn ol{grid-template-columns:1fr}.perks{grid-template-columns:1fr}.buy-btns .btn{width:100%}}
+
+/* 05 consult */
+.con-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,64px)}
+.con-top p{max-width:34ch;font-size:17px}
+.offers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.offer{background:var(--panel);border-radius:24px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:22px;min-width:0;transition:background .4s var(--ease)}
+.offer:hover{background:var(--panel-2)}
+.offer .pr{font-family:var(--display);font-weight:800;font-size:clamp(44px,4.4vw,64px);letter-spacing:-.055em;line-height:.9;white-space:nowrap}
+.offer .pr small{font-size:.42em;letter-spacing:-.02em;margin-left:6px;color:var(--dim);font-weight:600}
+.offer h3{font-size:clamp(22px,2vw,28px);letter-spacing:-.03em;line-height:1.08}
+.offer > p{color:var(--dim);font-size:15.5px}
+.res{display:flex;flex-direction:column;gap:10px}
+.res h4{margin:0;font-family:var(--display);font-size:15px;font-weight:600}
+.res li{display:grid;grid-template-columns:22px 1fr;font-size:15px;line-height:1.45;color:#D6D6D8}
+.res li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:8px}
+.offer .btn{margin-top:auto;min-height:50px}
+.combo{margin-top:clamp(12px,1.6vw,20px);border:1px solid var(--line);border-radius:24px;padding:clamp(24px,3vw,40px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);row-gap:20px;align-items:center}
+.combo h3{grid-column:1/5;font-size:clamp(40px,5vw,72px);letter-spacing:-.055em}
+.combo p{grid-column:5/9;color:var(--dim);font-size:15.5px}
+.combo .end{grid-column:9/-1;display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap}
+.combo .pr{font-family:var(--display);font-weight:800;font-size:clamp(32px,3vw,44px);letter-spacing:-.05em;white-space:nowrap}
+.combo .pr s{font-size:15px;font-weight:500;color:var(--dim);letter-spacing:0;margin-left:8px}
+@media (max-width:980px){.offers{grid-template-columns:1fr}.combo h3,.combo p,.combo .end{grid-column:1/-1}.combo .end{justify-content:flex-start}}
+
+/* 06 contact */
+.contact h2{font-size:clamp(52px,10vw,156px);font-weight:800;letter-spacing:-.06em;line-height:.86;max-width:11ch}
+.contact h2 span{color:var(--accent)}
+.c-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,20px);margin-top:clamp(48px,7vw,96px)}
+.c-card{background:var(--panel);border-radius:24px;padding:clamp(22px,2.6vw,32px);display:flex;flex-direction:column;gap:28px;min-width:0;transition:background .35s var(--ease),color .35s}
+a.c-card:hover{background:var(--fg);color:var(--bg)}
+.c-card .k{font-size:15px;color:var(--dim)}
+.c-card .v{font-family:var(--display);font-weight:700;font-size:clamp(20px,1.9vw,28px);letter-spacing:-.035em;line-height:1.1;overflow-wrap:anywhere}
+.c-card .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.c-card .btn{min-height:46px;padding:0 20px;font-size:14px}
+.c-card .go{margin-top:auto;font-weight:600;font-size:15px}
+@media (max-width:900px){.c-links{grid-template-columns:1fr}}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:clamp(56px,7vw,96px);font-size:14px;color:var(--dim)}
+.foot a:hover{color:var(--fg)}
+
+/* reveal (progressive) */
+@keyframes ld{from{opacity:0;transform:translateY(24px)}}
+@keyframes ph{from{opacity:0;transform:scale(1.03)}}
+@supports (animation-timeline:view()){
+  .rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+  @keyframes rv{from{opacity:0;transform:translateY(32px)}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="logo" href="#home">Аңсар<span>.</span></a>
+    <nav class="links" aria-label="Мәзір">
+      <a href="#about">Мен туралы</a><a href="#services">Қызметтер</a><a href="#course">Курс</a><a href="#consult">Консультация</a><a href="#contact">Байланыс</a>
+    </nav>
+    <div class="nav-r">
+      <div class="lang" role="group" aria-label="Тіл / Язык"><button type="button" data-lang="kk" aria-pressed="true">ҚАЗ</button><button type="button" data-lang="ru" aria-pressed="false">РУС</button></div>
+      <a class="btn btn-w" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! Сайттан жазып отырмын.">Жазу</a>
+      <button class="burger" id="burger" type="button" aria-label="Мәзір / Меню"><i></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <div class="menu-top"><span class="logo">Аңсар<span>.</span></span><button class="burger" id="menu-x" type="button" aria-label="Мәзірді жабу" style="display:grid;font-size:24px">×</button></div>
+  <nav aria-label="Мобильді мәзір">
+    <a href="#home"><small>01</small>Басты</a><a href="#about"><small>02</small>Мен туралы</a><a href="#services"><small>03</small>Қызметтер</a><a href="#course"><small>04</small>Курс</a><a href="#consult"><small>05</small>Консультация</a><a href="#contact"><small>06</small>Байланыс</a>
+  </nav>
+  <div class="menu-foot">
+    <a class="btn btn-w" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! Сайттан жазып отырмын.">WhatsApp</a>
+    <a class="btn btn-o" target="_blank" rel="noopener" href="https://instagram.com/ansar_kenzhebekuly">Instagram</a>
+  </div>
+</div>
+
+<main>
+
+<!-- 01 HERO -->
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div class="hero-txt">
+      <p class="role ld"><i></i>Creative Producer | Content Maker</p>
+      <h1 class="ld"><span>Аңсар</span><span>Кенжебекұлы</span></h1>
+      <p class="intro ld">Кәсіпкерлер мен эксперттерге жеке брендін дамытатын, аудитория сенетін контент жасаймын. Идеядан бастап дайын видеоға дейін.</p>
+      <div class="hero-btns ld">
+        <a class="btn btn-w" href="#services">Қызметтерімді көру <span class="ar">→</span></a>
+        <a class="btn btn-o" href="#course">Курсты қарау</a>
+      </div>
+    </div>
+    <figure class="photo" style="margin:0">
+      <!-- НЕГІЗГІ ФОТО: ауыстыру үшін src-ті өзгертіңіз -->
+      <img src="img/portrait.jpg" alt="Аңсар Кенжебекұлы" fetchpriority="high">
+    </figure>
+  </div>
+</section>
+
+<!-- 02 ABOUT -->
+<section class="sec" id="about">
+  <div class="wrap about-grid">
+    <div style="grid-column:1/-1"><p class="chap"><b>02</b>Мен туралы</p>
+    <h2 class="h2 rv">Контент — аудиториямен <em>байланыс орнатудың құралы.</em></h2></div>
+    <div class="about-txt rv">
+      <p>Мобилографиядан бастадым, бүгінде жеке брендтермен, кәсіпкерлермен және компаниялармен жұмыс істеймін.</p>
+      <p>Мен үшін сапалы контент тек әдемі кадр емес. Оның артында идея, сценарий, стратегия және нақты мақсат тұруы керек.</p>
+    </div>
+    <div class="stats">
+      <div class="stat rv"><b>5<em>+</em></b><p>жыл түсірілім мен контент тәжірибесі</p></div>
+      <div class="stat rv"><b>100<em>+</em></b><p>шәкірт офлайн және онлайн форматта оқыды</p></div>
+      <div class="stat txt rv"><b>Жеке бренд, бизнес, компания</b><p>тұлғалармен, кәсіпкерлермен және брендтермен жұмыс</p></div>
+    </div>
+    <div class="clients rv">
+      <p>Бірге жұмыс істегендер</p>
+      <p class="names"><span>Қыран Талапбек</span> <span>Jetour</span> <span>Kia</span> <span>Айқын Төлепберген</span> <span>NNN</span> <span>Төреғали Төрәлі</span> <span>Ахи</span> <span>Aii</span> <span>Айшолпан</span> <span>Сәкен Ділімбет</span> <span>Қуаныш Шонбай</span></p>
+    </div>
+    <div class="result rv">
+      <b>+40 000</b>
+      <div><h3>ALIKHAN COMPANY</h3><p>Алматыдағы құрылыс материалдары компаниясы. Әлеуметтік және эксперттік роликтер арқылы парақшаға 40 000 оқырман жинауға үлес қостым.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SERVICES -->
+<section class="sec" id="services" style="padding-top:0">
+  <div class="wrap">
+    <p class="chap"><b>03</b>Қызметтер</p>
+    <div class="svc-top"><h2 class="h2 rv">Идеядан дайын видеоға дейін</h2><p class="dim rv">Керек бағытты таңдаңыз. Бағасы тапсырманың көлеміне қарай келісіледі.</p></div>
+    <div class="svcs" id="svcs"></div>
+
+    <!-- WEBSITE DEVELOPMENT (жаңа қызмет) -->
+    <article class="web" id="web">
+      <div class="web-top"><span class="web-tag">Жаңа қызмет</span><span class="web-n">09</span></div>
+      <div class="web-head rv">
+        <h3>Website <span>Development</span></h3>
+        <p class="web-sub">Сайт жасау</p>
+      </div>
+      <div class="web-txt rv">
+        <p>Бизнесіңізге, жеке брендіңізге немесе жобаңызға арналған заманауи, эстетикалық әрі функционалды сайттар жасаймын.</p>
+        <p>Жай ғана әдемі сайт емес, сіздің брендіңізді таныстыратын, қызметіңізді дұрыс көрсететін және клиенттің сенімін қалыптастыратын цифрлық кеңістік құрамын.</p>
+      </div>
+      <div class="web-frame rv" aria-hidden="true">
+        <div class="wf-bar"><i></i><i></i><i></i><span></span></div>
+        <div class="wf-body">
+          <div class="wf-nav"><b></b><span></span><span></span><span></span></div>
+          <div class="wf-hero">
+            <div class="wf-lines"><b style="width:92%"></b><b style="width:74%"></b><b style="width:48%"></b><em style="width:88%"></em><em style="width:64%"></em><u></u></div>
+            <div class="wf-img"></div>
+          </div>
+          <div class="wf-cards"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="web-list rv">
+        <h4>Нені жасаймын</h4>
+        <ol>
+          <li>Жеке бренд сайты</li><li>Бизнес сайты</li><li>Портфолио сайты</li><li>Landing Page</li><li>Қызметтер мен өнімдерді таныстыратын сайттар</li>
+        </ol>
+      </div>
+      <div class="web-foot rv">
+        <div class="web-price"><span>Бағасы</span><b>99 000 ₸</b><span>бастап</span></div>
+        <div class="web-cta">
+          <p>Нақты бағасы мен мерзімі жобаның көлеміне қарай келісіледі.</p>
+          <a class="btn btn-w" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! Сайтқа тапсырыс бергім келеді.">Сайтқа тапсырыс беру <span class="ar">→</span></a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 04 COURSE -->
+<section class="sec course" id="course">
+  <div class="wrap">
+    <p class="chap"><b>04</b>Курс</p>
+    <h2 class="areket rv">ӘРЕКЕТ<span>.</span></h2>
+    <div class="course-lead">
+      <p class="rv">Мобилографияны нөлден үйренгісі келетіндерге арналған курс. Телефонмен кәсіби түсіруден бастап жеке бренд пен Instagram-ға дейін.</p>
+      <span class="badge">Алдын ала сатылым</span>
+    </div>
+    <div class="c-grid">
+      <div class="c-col c-for rv">
+        <h3>Кімге арналған</h3>
+        <ul>
+          <li>Мобилографияны нөлден бастағысы келетіндерге</li>
+          <li>Бизнесіне контентті өзі түсіргісі келетін кәсіпкерлерге</li>
+          <li>Жеке брендін дамытқысы келетін эксперттер мен блогерлерге</li>
+        </ul>
+      </div>
+      <div class="c-col c-learn rv">
+        <h3>Не үйренесіз</h3>
+        <ol>
+          <li>Мобилография негіздері</li><li>Смартфонмен кәсіби түсіру</li><li>Кадр қою</li><li>Жарық пен композиция</li><li>Атмосфералық видеолар</li><li>CapCut-та монтаж</li><li>Эксперттік контент</li><li>Жеке бренд</li><li>Instagram безендіру</li><li>Ешкім қолданбайтын фишкалар</li>
+        </ol>
+      </div>
+      <div class="perks">
+        <div class="perk rv"><b>Telegram-канал</b><span>Сабақтар мен шәкірттер чаты</span></div>
+        <div class="perk rv"><b>Үй тапсырмасы</b><span>Әр сабақтан кейін, чатта тексеріледі</span></div>
+        <div class="perk rv"><b>Аңсармен Zoom</b><span>Тегін, кез келген сұрағыңызды қоясыз</span></div>
+        <div class="perk rv"><b>Қосымша сабақтар</b><span>Fast Food, Car, Fashion түсірілім, креативті монтаж</span></div>
+      </div>
+      <div class="buy" id="pay">
+        <div class="buy-l">
+          <p class="dim">Қазіргі баға</p>
+          <p class="now">4 990 ₸</p>
+          <p class="was">Курс толық дайын болғанда <s>14 990 ₸</s></p>
+          <p class="save">Қазір тіркелсеңіз, 10 000 ₸ үнемдейсіз</p>
+        </div>
+        <div class="buy-r">
+          <ol><li>Kaspi нөміріне 4 990 ₸ аударыңыз</li><li>Чекті Instagram Direct-ке жіберіңіз</li><li>Тіркелуіңізді растап, курсқа қосамыз</li></ol>
+          <div class="kaspi"><div><b>8 775 816 18 05</b><small>Kaspi · Диана</small></div><button class="btn btn-w" type="button" data-copy="87758161805">Көшіру</button></div>
+          <div class="buy-btns">
+            <a class="btn btn-w" target="_blank" rel="noopener" href="https://ig.me/m/ansar_kenzhebekuly">Чекті Direct-ке жіберу <span class="ar">→</span></a>
+            <a class="btn btn-o" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! ӘРЕКЕТ курсына 4 990 ₸ төледім, чегін жіберемін.">WhatsApp арқылы</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CONSULT -->
+<section class="sec" id="consult">
+  <div class="wrap">
+    <p class="chap"><b>05</b>Консультация</p>
+    <div class="con-top"><h2 class="h2 rv">Контентіңізге нақты жоспар</h2><p class="dim rv">Үш бағыт. Әрқайсысынан не алатыныңыз нақты жазылған.</p></div>
+    <div class="offers" id="offers"></div>
+    <div class="combo rv">
+      <h3>COMBO</h3>
+      <p>Үш қызмет бір пакетте: жеке консультация, аккаунт талдауы және контент стратегиясы.</p>
+      <div class="end"><span class="pr">45 000 ₸<s>55 000 ₸</s></span><a class="btn btn-w" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! COMBO пакетін (45 000 ₸) алғым келеді.">COMBO алу</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CONTACT -->
+<section class="sec contact" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <p class="chap"><b>06</b>Байланыс</p>
+    <h2 class="rv">Келесі жобаңызды <span>бірге</span> бастайық.</h2>
+    <div class="c-links">
+      <div class="c-card rv"><span class="k">WhatsApp</span><span class="v">+7 747 655 21 16</span><div class="row"><a class="btn btn-w" target="_blank" rel="noopener" data-wa="Сәлеметсіз бе! Сайттан жазып отырмын.">Жазу</a><button class="btn btn-o" type="button" data-copy="+77476552116">Көшіру</button></div></div>
+      <a class="c-card rv" target="_blank" rel="noopener" href="https://instagram.com/ansar_kenzhebekuly"><span class="k">Instagram</span><span class="v">@ansar_kenzhebekuly</span><span class="go">Ашу →</span></a>
+      <a class="c-card rv" target="_blank" rel="noopener" href="https://instagram.com/ansar.film"><span class="k">Instagram · жұмыстар</span><span class="v">@ansar.film</span><span class="go">Ашу →</span></a>
+    </div>
+    <div class="foot"><span>© 2026 Аңсар Кенжебекұлы</span><a href="#home">Жоғарыға ↑</a></div>
+  </div>
+</section>
+</main>
+
+<script>
+const WA = "77476552116";
+const waLink = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ================== ТІЛ / ЯЗЫК ================== */
+let lang = "kk";
+const UI = {
+  kk:{problem:"Қандай мәселені шешеді", process:"Жұмыс процесі", order:"Тапсырыс беру", more:"Толығырақ", close:"Жабу", result:"Нәтижесі", copied:"Көшірілді",
+      waSvc:t=>`Сәлеметсіз бе! «${t}» қызметіне тапсырыс бергім келеді.`, waOffer:(t,p)=>`Сәлеметсіз бе! «${t}» (${p} ₸) алғым келеді.`},
+  ru:{problem:"Какую задачу решает", process:"Процесс работы", order:"Заказать", more:"Подробнее", close:"Свернуть", result:"Результат", copied:"Скопировано",
+      waSvc:t=>`Здравствуйте! Хочу заказать услугу «${t}».`, waOffer:(t,p)=>`Здравствуйте! Хочу «${t}» (${p} ₸).`}
+};
+
+/* Статикалық мәтіндер: қазақша → орысша */
+const RU = {
+  "Мен туралы":"Обо мне","Қызметтер":"Услуги","Курс":"Курс","Консультация":"Консультация","Байланыс":"Контакты","Жазу":"Написать","Басты":"Главная",
+  "Кәсіпкерлер мен эксперттерге жеке брендін дамытатын, аудитория сенетін контент жасаймын. Идеядан бастап дайын видеоға дейін.":"Создаю для предпринимателей и экспертов контент, который развивает личный бренд и вызывает доверие аудитории. От идеи до готового видео.",
+  "Қызметтерімді көру":"Мои услуги","Курсты қарау":"Смотреть курс",
+  "Контент — аудиториямен":"Контент — это","байланыс орнатудың құралы.":"способ выстроить связь с аудиторией.",
+  "Мобилографиядан бастадым, бүгінде жеке брендтермен, кәсіпкерлермен және компаниялармен жұмыс істеймін.":"Начинал с мобилографии, сегодня работаю с личными брендами, предпринимателями и компаниями.",
+  "Мен үшін сапалы контент тек әдемі кадр емес. Оның артында идея, сценарий, стратегия және нақты мақсат тұруы керек.":"Для меня качественный контент — это не просто красивый кадр. За ним должны стоять идея, сценарий, стратегия и конкретная цель.",
+  "жыл түсірілім мен контент тәжірибесі":"лет опыта в съёмке и контенте",
+  "шәкірт офлайн және онлайн форматта оқыды":"учеников прошли обучение офлайн и онлайн",
+  "Жеке бренд, бизнес, компания":"Личные бренды, бизнес, компании",
+  "тұлғалармен, кәсіпкерлермен және брендтермен жұмыс":"работа с известными людьми, предпринимателями и брендами",
+  "Бірге жұмыс істегендер":"С кем я работал",
+  "Алматыдағы құрылыс материалдары компаниясы. Әлеуметтік және эксперттік роликтер арқылы парақшаға 40 000 оқырман жинауға үлес қостым.":"Компания строительных материалов в Алматы. С помощью социальных и экспертных роликов помог собрать на странице 40 000 подписчиков.",
+  "Идеядан дайын видеоға дейін":"От идеи до готового видео",
+  "Керек бағытты таңдаңыз. Бағасы тапсырманың көлеміне қарай келісіледі.":"Выберите нужное направление. Стоимость обсуждается по объёму задачи.",
+  "Мобилографияны нөлден үйренгісі келетіндерге арналған курс. Телефонмен кәсіби түсіруден бастап жеке бренд пен Instagram-ға дейін.":"Курс для тех, кто хочет освоить мобилографию с нуля. От профессиональной съёмки на телефон до личного бренда и Instagram.",
+  "Алдын ала сатылым":"Предпродажа","Кімге арналған":"Для кого","Не үйренесіз":"Чему научитесь",
+  "Мобилографияны нөлден бастағысы келетіндерге":"Тем, кто хочет начать мобилографию с нуля",
+  "Бизнесіне контентті өзі түсіргісі келетін кәсіпкерлерге":"Предпринимателям, которые хотят сами снимать контент для бизнеса",
+  "Жеке брендін дамытқысы келетін эксперттер мен блогерлерге":"Экспертам и блогерам, которые развивают личный бренд",
+  "Мобилография негіздері":"Основы мобилографии","Смартфонмен кәсіби түсіру":"Профессиональная съёмка на смартфон","Кадр қою":"Постановка кадра",
+  "Жарық пен композиция":"Свет и композиция","Атмосфералық видеолар":"Атмосферные видео","CapCut-та монтаж":"Монтаж в CapCut","Эксперттік контент":"Экспертный контент",
+  "Жеке бренд":"Личный бренд","Instagram безендіру":"Оформление Instagram","Ешкім қолданбайтын фишкалар":"Фишки, которые никто не использует",
+  "Сабақтар мен шәкірттер чаты":"Уроки и чат учеников","Үй тапсырмасы":"Домашние задания","Әр сабақтан кейін, чатта тексеріледі":"После каждого урока, проверка в чате",
+  "Аңсармен Zoom":"Zoom с Аңсаром","Тегін, кез келген сұрағыңызды қоясыз":"Бесплатно, можно задать любой вопрос","Қосымша сабақтар":"Дополнительные уроки",
+  "Fast Food, Car, Fashion түсірілім, креативті монтаж":"Съёмка Fast Food, Car, Fashion, креативный монтаж",
+  "Қазіргі баға":"Цена сейчас","Курс толық дайын болғанда":"Когда курс будет полностью готов","Қазір тіркелсеңіз, 10 000 ₸ үнемдейсіз":"Запишитесь сейчас и сэкономьте 10 000 ₸",
+  "Kaspi нөміріне 4 990 ₸ аударыңыз":"Переведите 4 990 ₸ на номер Kaspi","Чекті Instagram Direct-ке жіберіңіз":"Отправьте чек в Instagram Direct",
+  "Тіркелуіңізді растап, курсқа қосамыз":"Мы подтвердим запись и добавим вас в курс","Көшіру":"Скопировать","Чекті Direct-ке жіберу":"Отправить чек в Direct","WhatsApp арқылы":"Через WhatsApp",
+  "Контентіңізге нақты жоспар":"Чёткий план для вашего контента","Үш бағыт. Әрқайсысынан не алатыныңыз нақты жазылған.":"Три направления. По каждому чётко указан результат.",
+  "Үш қызмет бір пакетте: жеке консультация, аккаунт талдауы және контент стратегиясы.":"Три услуги в одном пакете: личная консультация, разбор аккаунта и контент-стратегия.",
+  "COMBO алу":"Взять COMBO",
+  "Келесі жобаңызды":"Давайте","бірге":"вместе","бастайық.":"начнём ваш следующий проект.",
+  "Instagram · жұмыстар":"Instagram · работы","Ашу →":"Открыть →","Жоғарыға ↑":"Наверх ↑",
+  "Жаңа қызмет":"Новая услуга","Сайт жасау":"Создание сайтов",
+  "Бизнесіңізге, жеке брендіңізге немесе жобаңызға арналған заманауи, эстетикалық әрі функционалды сайттар жасаймын.":"Создаю современные, эстетичные и функциональные сайты для бизнеса, личного бренда или проекта.",
+  "Жай ғана әдемі сайт емес, сіздің брендіңізді таныстыратын, қызметіңізді дұрыс көрсететін және клиенттің сенімін қалыптастыратын цифрлық кеңістік құрамын.":"Не просто красивый сайт, а цифровое пространство, которое представляет ваш бренд, правильно показывает ваши услуги и формирует доверие клиента.",
+  "Нені жасаймын":"Что я делаю","Жеке бренд сайты":"Сайт личного бренда","Бизнес сайты":"Сайт для бизнеса","Портфолио сайты":"Сайт-портфолио",
+  "Қызметтер мен өнімдерді таныстыратын сайттар":"Сайты для презентации услуг и продуктов",
+  "Бағасы":"Стоимость","бастап":"начальная цена",
+  "Нақты бағасы мен мерзімі жобаның көлеміне қарай келісіледі.":"Итоговая стоимость и сроки зависят от объёма проекта.",
+  "Сайтқа тапсырыс беру":"Заказать сайт"
+};
+const RU_WA = {
+  "Сәлеметсіз бе! Сайттан жазып отырмын.":"Здравствуйте! Пишу с сайта.",
+  "Сәлеметсіз бе! ӘРЕКЕТ курсына 4 990 ₸ төледім, чегін жіберемін.":"Здравствуйте! Оплатил(а) курс ӘРЕКЕТ 4 990 ₸, отправляю чек.",
+  "Сәлеметсіз бе! COMBO пакетін (45 000 ₸) алғым келеді.":"Здравствуйте! Хочу пакет COMBO (45 000 ₸).",
+  "Сәлеметсіз бе! Сайтқа тапсырыс бергім келеді.":"Здравствуйте! Хочу заказать сайт."
+};
+
+const services = [
+  {main:true, cta:{kk:"Жобаны талқылау",ru:"Обсудить проект"},
+   kk:{t:"Жеке брендті дамыту және толық циклді контент өндірісі",
+       d:"Парақшаңызды тауар каталогынан аудитория сенетін жеке брендке айналдырамын. Идея, сценарий, түсірілім, монтаж — бәрін өзім ұйымдастырамын.",
+       p:"Парақша бар, бірақ адамдар сізді білмейді, сенбейді және сатып алуға асықпайды.",
+       s:["Болмысыңыз бен тарихыңызды ашу","Контент бағытын анықтау","Идеялар мен сценарийлер","Түсірілімді ұйымдастыру","Түсірілім және монтаж","Әлеуметтік желіге бейімдеу"],
+       note:"Бағасы жобаның көлеміне қарай жеке есептеледі."},
+   ru:{t:"Развитие личного бренда и контент-продакшн полного цикла",
+       d:"Превращаю вашу страницу из каталога товаров в личный бренд, которому доверяет аудитория. Идея, сценарий, съёмка, монтаж — всё организую сам.",
+       p:"Страница есть, но люди вас не знают, не доверяют и не спешат покупать.",
+       s:["Раскрываем вашу личность и историю","Определяем контент-направление","Идеи и сценарии","Организация съёмки","Съёмка и монтаж","Адаптация под соцсети"],
+       note:"Стоимость рассчитывается индивидуально по объёму проекта."}},
+  {kk:{t:"Мобилография", d:"Телефонға кәсіби деңгейде түсірілген видео мен фото, әлеуметтік желіге бірден дайын.",
+       p:"Қымбат техникасыз, жылдам әрі сапалы контент керек болғанда.", s:["Тапсырманы талқылау","Түсірілім жоспары","Түсірілім","Өңдеу және тапсыру"]},
+   ru:{t:"Мобилография", d:"Видео и фото на телефон профессионального уровня, сразу готовые для соцсетей.",
+       p:"Когда нужен быстрый и качественный контент без дорогой техники.", s:["Обсуждение задачи","План съёмки","Съёмка","Обработка и сдача"]}},
+  {kk:{t:"Видеография", d:"Камераға түсірілетін имидждік, жарнамалық және автомобиль видеолары.",
+       p:"Брендке әсерлі, қымбат көрінетін видео керек болғанда.", s:["Идея мен формат","Локация мен техника","Түсірілім","Монтаж, түс, дыбыс"]},
+   ru:{t:"Видеография", d:"Имиджевые, рекламные и автомобильные видео на камеру.",
+       p:"Когда бренду нужно эффектное видео, которое выглядит дорого.", s:["Идея и формат","Локация и техника","Съёмка","Монтаж, цвет, звук"]}},
+  {kk:{t:"Reels Production", d:"Алғашқы секундтан ұстайтын хук, нақты құрылым және динамикалық монтаж.",
+       p:"Парақша өспей, қаралым аз болғанда.", s:["Тақырып пен хук","Сценарий","Түсірілім","Монтаж"]},
+   ru:{t:"Reels Production", d:"Хук, который цепляет с первой секунды, понятная структура и динамичный монтаж.",
+       p:"Когда страница не растёт и просмотров мало.", s:["Тема и хук","Сценарий","Съёмка","Монтаж"]}},
+  {kk:{t:"Видео монтаж", d:"Кесу, ырғақ, титр, дыбыс және түс. Соңына дейін көргізетін монтаж.",
+       p:"Видео бар, бірақ монтажға уақыт жетпейді.", s:["Материалды қабылдау","Монтаж және титр","Дыбыс пен түс","Түзетулер"]},
+   ru:{t:"Видеомонтаж", d:"Нарезка, ритм, титры, звук и цвет. Монтаж, который досматривают до конца.",
+       p:"Когда видео есть, а времени на монтаж нет.", s:["Приём материала","Монтаж и титры","Звук и цвет","Правки"]}},
+  {kk:{t:"Сценарий жазу", d:"Тақырыптар, күшті бастама және камера алдында не айту керегі.",
+       p:"Не туралы түсіріп, не айтарыңызды білмегенде.", s:["Аудиторияны зерттеу","Тақырыптар тізімі","Сценарийлер","Түзетулер"]},
+   ru:{t:"Написание сценариев", d:"Темы, сильное начало и то, что говорить в кадре.",
+       p:"Когда не знаете, что снимать и что говорить.", s:["Изучение аудитории","Список тем","Сценарии","Правки"]}},
+  {kk:{t:"Контент стратегиясы", d:"Аудитория, рубрикалар және жариялау жоспары. Контент бір мақсатқа жұмыс істейді.",
+       p:"Контент ретсіз шығып, нәтиже бермегенде.", s:["Аудиторияны анықтау","Рубрикалар","Жариялау жоспары","Идеялар банкі"]},
+   ru:{t:"Контент-стратегия", d:"Аудитория, рубрики и план публикаций. Контент работает на одну цель.",
+       p:"Когда контент выходит хаотично и не даёт результата.", s:["Определение аудитории","Рубрики","План публикаций","Банк идей"]}},
+  {kk:{t:"Бизнеске арналған контент", d:"Өнімді, команданы және процесті көрсетіп, сенім мен сатылым әкелетін роликтер.",
+       p:"Парақша каталог сияқты көрініп, тапсырыс әкелмегенде.", s:["Бизнес мақсаты","Контент жоспары","Түсірілім","Монтаж"]},
+   ru:{t:"Контент для бизнеса", d:"Ролики, которые показывают продукт, команду и процесс и приносят доверие и продажи.",
+       p:"Когда страница выглядит как каталог и не приносит заказов.", s:["Цель бизнеса","Контент-план","Съёмка","Монтаж"]}}
+];
+
+const offers = [
+  {pr:"15 000",
+   kk:{t:"Жеке консультация", d:"Контент, мобилография, видеография, Instagram, жеке бренд және маркетинг бойынша жеке кеңес.", r:["Сұрақтарыңызға нақты жауаптар","Өз жағдайыңызға арналған кеңестер","Келесі қадамдар жоспары"]},
+   ru:{t:"Личная консультация", d:"Личный разбор по контенту, мобилографии, видеографии, Instagram, личному бренду и маркетингу.", r:["Чёткие ответы на ваши вопросы","Советы под вашу ситуацию","План следующих шагов"]}},
+  {pr:"10 000",
+   kk:{t:"Instagram аккаунтын талдау", d:"Био, позициялау, контент бағыты, Reels тақырыптары және аудиториямен байланыс.", r:["Парақшаның әлсіз жерлері","Био мен позициялау бойынша түзетулер","Нақты не өзгерту керегі"]},
+   ru:{t:"Разбор Instagram-аккаунта", d:"Био, позиционирование, контент, темы Reels и связь с аудиторией.", r:["Слабые места страницы","Правки по био и позиционированию","Что конкретно изменить"]}},
+  {pr:"30 000",
+   kk:{t:"Жеке контент стратегиясы", d:"Аудиторияңызды анықтап, контентке толық жоспар құрамыз.", r:["4–5 рубрика","4 апталық жоспар","12–16 Reels идеясы","Барлығы PDF құжат ретінде"]},
+   ru:{t:"Личная контент-стратегия", d:"Определяем вашу аудиторию и строим полный план контента.", r:["4–5 рубрик","План на 4 недели","12–16 идей для Reels","Всё в формате PDF"]}}
+];
+
+function renderDynamic(){
+  const u = UI[lang];
+  document.getElementById("svcs").innerHTML = services.map((x,i) => { const s = x[lang]; return `
+  <article class="svc${x.main?" main":""} rv">
+    <div class="svc-h"><span class="svc-n">${String(i+1).padStart(2,"0")}</span></div>
+    <h3>${esc(s.t)}</h3>
+    <p>${esc(s.d)}</p>
+    <div class="more" id="more-${i}"><div><div class="more-in">
+      <div><h4>${u.problem}</h4><p>${esc(s.p)}</p></div>
+      <div><h4>${u.process}</h4><ol>${s.s.map(y=>`<li>${esc(y)}</li>`).join("")}</ol></div>
+      ${s.note?`<p class="price-note"><b>${esc(s.note)}</b></p>`:""}
+    </div></div></div>
+    <div class="svc-acts">
+      <a class="btn btn-w" target="_blank" rel="noopener" href="${waLink(u.waSvc(s.t))}">${esc(x.cta?x.cta[lang]:u.order)}</a>
+      <button class="btn btn-o" type="button" data-more="${i}" aria-expanded="false" aria-controls="more-${i}">${u.more}</button>
+    </div>
+  </article>`; }).join("");
+
+  document.getElementById("offers").innerHTML = offers.map(x => { const o = x[lang]; return `
+  <article class="offer rv">
+    <p class="pr">${x.pr}<small>₸</small></p>
+    <h3>${esc(o.t)}</h3>
+    <p>${esc(o.d)}</p>
+    <div class="res"><h4>${u.result}</h4><ul>${o.r.map(y=>`<li>${esc(y)}</li>`).join("")}</ul></div>
+    <a class="btn btn-w" target="_blank" rel="noopener" href="${waLink(u.waOffer(o.t, x.pr))}">${u.order}</a>
+  </article>`; }).join("");
+}
+
+const textNodes = [];
+(function collect(root){
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode: n =>
+    n.parentElement.closest("script,style,#svcs,#offers") || !n.nodeValue.trim() ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT});
+  let n; while ((n = w.nextNode())) { const k = n.nodeValue.trim(); if (RU[k]) textNodes.push({n, kk:n.nodeValue, ru:n.nodeValue.replace(k, RU[k])}); }
+})(document.body);
+const waEls = [...document.querySelectorAll("[data-wa]")];
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = l === "ru" ? "ru" : "kk";
+  textNodes.forEach(t => t.n.nodeValue = t[l]);
+  waEls.forEach(a => { const kk = a.dataset.wa; a.href = waLink(l === "ru" ? (RU_WA[kk] || kk) : kk); });
+  renderDynamic();
+  document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l));
+  try { localStorage.setItem("ansar-lang", l); } catch {}
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) setLang(b.dataset.lang); });
+
+
+/* photo fallback */
+document.querySelectorAll(".photo img").forEach(img => img.addEventListener("error", () => { img.remove(); img.parentElement?.insertAdjacentHTML("beforeend",'<span class="empty">Негізгі фото</span>'); }));
+
+/* menu */
+const menu = document.getElementById("menu");
+const setMenu = open => { menu.hidden = !open; document.body.style.overflow = open ? "hidden" : ""; };
+document.getElementById("burger").onclick = () => setMenu(true);
+document.getElementById("menu-x").onclick = () => setMenu(false);
+menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+
+document.addEventListener("click", e => {
+  const m = e.target.closest("[data-more]");
+  if (m) { const card = m.closest(".svc"); const open = card.classList.toggle("open"); m.setAttribute("aria-expanded", open); m.textContent = open ? UI[lang].close : UI[lang].more; return; }
+  const cp = e.target.closest("[data-copy]");
+  if (cp) {
+    const old = cp.textContent;
+    const done = () => { cp.textContent = UI[lang].copied; setTimeout(() => cp.textContent = old, 1800); };
+    const fallback = () => { const b = cp.parentElement.parentElement.querySelector("b,.v"); if (!b) return; const r = document.createRange(); r.selectNodeContents(b); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText(cp.dataset.copy).then(done, fallback); } catch { fallback(); }
+  }
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) setMenu(false); });
+
+const nav = document.getElementById("nav");
+const onScroll = () => nav.classList.toggle("solid", scrollY > 30);
+addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+let saved = "kk";
+try { saved = localStorage.getItem("ansar-lang") || "kk"; } catch {}
+setLang(saved === "ru" ? "ru" : "kk");
+</script>
+
+</body>
+</html>
